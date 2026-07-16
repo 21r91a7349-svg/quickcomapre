@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/scraper/core/db';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     // Check Database connection

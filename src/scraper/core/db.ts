@@ -11,8 +11,8 @@ import pMap from 'p-map';
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
 const createPrismaClient = () => {
-  if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is missing");
-  const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+  const url = process.env.DATABASE_URL || 'postgres://mock:mock@localhost:5432/mock';
+  const pool = new Pool({ connectionString: url });
   const adapter = new PrismaPg(pool);
   return new PrismaClient({ adapter });
 };
