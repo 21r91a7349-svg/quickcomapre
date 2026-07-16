@@ -1,10 +1,5 @@
 import { Browser, BrowserContext, Page } from 'playwright';
 import { chromium } from 'playwright-extra';
-// Use eval to hide require from Next.js bundler
-const stealth = eval('require')('puppeteer-extra-plugin-stealth');
-
-// @ts-ignore
-chromium.use(stealth());
 import { scraperConfig } from '../config';
 import { ScraperLogger } from './logger';
 import { SessionManager } from './SessionManager';
@@ -25,6 +20,16 @@ export class BrowserManager {
       try {
         console.log('[DIAGNOSTIC] Playwright initBrowser launching');
         this.logger.info('Launching new Playwright browser instance');
+        
+        try {
+          // Lazy-load stealth plugin (makes it optional and prevents top-level module crash)
+          const stealthPlugin = require('puppeteer-extra-plugin-stealth');
+          chromium.use(stealthPlugin());
+          this.logger.debug('Stealth plugin loaded successfully');
+        } catch (e: any) {
+          this.logger.warn(`Optional stealth plugin not found: ${e.message}. Proceeding without stealth.`);
+        }
+
         const proxy = this.proxyManager.getProxy();
         
         try {
