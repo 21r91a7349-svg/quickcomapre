@@ -13,13 +13,20 @@ function SearchResults() {
   const query = searchParams.get('q') || '';
   
   const [results, setResults] = useState<Product[]>([]);
+  const [facets, setFacets] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Filter states
+  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+  const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchResults() {
       if (!query.trim()) {
         setResults([]);
+        setFacets(null);
         setIsLoading(false);
         return;
       }
@@ -28,11 +35,17 @@ function SearchResults() {
       setError(null);
       
       try {
-        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+        let url = `/api/search?q=${encodeURIComponent(query)}`;
+        if (selectedBrand) url += `&brand=${encodeURIComponent(selectedBrand)}`;
+        if (selectedPlatform) url += `&platform=${encodeURIComponent(selectedPlatform)}`;
+        if (selectedCategory) url += `&category=${encodeURIComponent(selectedCategory)}`;
+
+        const res = await fetch(url);
         if (!res.ok) throw new Error('Failed to fetch results');
         
         const data = await res.json();
         setResults(data.results || []);
+        setFacets(data.facets || null);
       } catch (err) {
         console.error(err);
         setError('Something went wrong while searching. Please try again.');
@@ -42,12 +55,12 @@ function SearchResults() {
     }
 
     fetchResults();
-  }, [query]);
+  }, [query, selectedBrand, selectedPlatform, selectedCategory]);
 
   return (
     <div className="container mx-auto px-4 max-w-5xl py-8 md:py-12">
       {/* Search Header */}
-      <div className="mb-10">
+      <div className="mb-8">
         <div className="max-w-2xl">
           <SearchContainer />
         </div>
@@ -60,6 +73,39 @@ function SearchResults() {
           </p>
         )}
       </div>
+
+      {/* Horizontal Filter Chips */}
+      {facets && !isLoading && (
+        <div className="flex overflow-x-auto pb-4 mb-6 gap-2 custom-scrollbar no-scrollbar">
+            {facets.platforms?.map((p: string) => (
+                <button 
+                  key={p} 
+                  onClick={() => setSelectedPlatform(selectedPlatform === p ? null : p)}
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors border ${selectedPlatform === p ? 'bg-primary text-primary-foreground border-primary' : 'bg-background hover:bg-muted border-border'}`}
+                >
+                  {p}
+                </button>
+            ))}
+            {facets.categories?.map((c: string) => (
+                <button 
+                  key={c} 
+                  onClick={() => setSelectedCategory(selectedCategory === c ? null : c)}
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors border ${selectedCategory === c ? 'bg-primary text-primary-foreground border-primary' : 'bg-background hover:bg-muted border-border'}`}
+                >
+                  {c}
+                </button>
+            ))}
+            {facets.brands?.map((b: string) => (
+                <button 
+                  key={b} 
+                  onClick={() => setSelectedBrand(selectedBrand === b ? null : b)}
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors border ${selectedBrand === b ? 'bg-primary text-primary-foreground border-primary' : 'bg-background hover:bg-muted border-border'}`}
+                >
+                  {b}
+                </button>
+            ))}
+        </div>
+      )}
 
       {/* Loading State */}
       {isLoading && (

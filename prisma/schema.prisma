@@ -6,7 +6,192 @@ generator client {
 datasource db {
   provider     = "postgresql"
   relationMode = "foreignKeys"
-  extensions   = [pg_trgm, vector]
+  extensions   = [pg_trgm, uuid_ossp(map: "uuid-ossp", schema: "extensions"), vector]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String       @id @default(cuid())
+  name          String?
+  email         String?      @unique
+  emailVerified DateTime?
+  image         String?
+  role          USER_ROLE    @default(USER)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  accounts      Account[]
+  alerts        PriceAlert[]
+  sessions      Session[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Product {
+  id                  String                 @id @default(cuid())
+  normalized_name     String
+  display_name        String
+  brand               String?
+  category            ProductCategory?
+  subcategory         String?
+  quantity            Float?
+  unit                String?
+  canonical_image_url String?
+  search_keywords     String?
+  createdAt           DateTime               @default(now())
+  updatedAt           DateTime               @updatedAt
+  deletedAt           DateTime?
+  embedding           Unsupported("vector")?
+  matchedAt           DateTime?
+  matchingConfidence  Float?
+  matchingMethod      MatchStrategy          @default(DETERMINISTIC)
+  listings            Listing[]
+  alerts              PriceAlert[]
+  aliases             ProductAlias[]
+  sourceReviews       ProductMatchReview[]   @relation("SourceReviews")
+  targetReviews       ProductMatchReview[]   @relation("TargetReviews")
+
+  @@unique([normalized_name, quantity, unit, brand])
+  @@index([normalized_name])
+  @@index([category])
+}
+
+model Platform {
+  id        String         @id @default(cuid())
+  name      String         @unique
+  slug      String         @unique
+  type      PlatformType   @default(QUICK_COMMERCE)
+  website   String?
+  logo      String?
+  active    Boolean        @default(true)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  listings  Listing[]
+  aliases   ProductAlias[]
+}
+
+model Listing {
+  id                String         @id @default(cuid())
+  productId         String
+  platformId        String
+  platformProductId String
+  productUrl        String?
+  currentPrice      Decimal
+  originalPrice     Decimal?
+  discount          Decimal?
+  inStock           Boolean        @default(true)
+  rating            Float?
+  deliveryTime      String?
+  imageUrl          String?
+  lastScrapedAt     DateTime       @default(now())
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  deletedAt         DateTime?
+  platform          Platform       @relation(fields: [platformId], references: [id])
+  product           Product        @relation(fields: [productId], references: [id])
+  priceHistory      PriceHistory[]
+
+  @@unique([platformId, platformProductId])
+  @@index([productId])
+  @@index([platformId])
+  @@index([currentPrice])
+  @@index([lastScrapedAt])
+}
+
+model ProductAlias {
+  id                String   @id @default(cuid())
+  productId         String
+  platformId        String
+  platformProductId String
+  platformTitle     String
+  normalizedTitle   String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  platform          Platform @relation(fields: [platformId], references: [id], onDelete: Cascade)
+  product           Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([platformId, platformProductId])
+  @@index([productId])
+  @@index([normalizedTitle])
+}
+
+model ProductMatchReview {
+  id               String        @id @default(cuid())
+  sourceProductId  String
+  targetProductId  String
+  confidenceScore  Float
+  matchingReason   String
+  matchingStrategy MatchStrategy
+  status           ReviewStatus  @default(PENDING)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  sourceProduct    Product       @relation("SourceReviews", fields: [sourceProductId], references: [id], onDelete: Cascade)
+  targetProduct    Product       @relation("TargetReviews", fields: [targetProductId], references: [id], onDelete: Cascade)
+}
+
+model PriceHistory {
+  id         String   @id @default(cuid())
+  listingId  String
+  price      Decimal
+  recordedAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  listing    Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@index([listingId])
+  @@index([recordedAt])
+  @@index([listingId, recordedAt])
+}
+
+model PriceAlert {
+  id              String         @id @default(cuid())
+  productId       String
+  targetPrice     Decimal
+  condition       AlertCondition @default(BELOW)
+  contactMethod   ContactMethod  @default(EMAIL)
+  contactAddress  String
+  isActive        Boolean        @default(true)
+  lastTriggeredAt DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  userId          String?
+  product         Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user            User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@index([userId])
+  @@index([contactAddress])
+  @@index([isActive])
 }
 
 enum USER_ROLE {
@@ -30,171 +215,6 @@ enum ProductCategory {
   OTHER
 }
 
-// NextAuth Required Models
-model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.Text
-  session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-}
-
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  role          USER_ROLE @default(USER)
-  accounts      Account[]
-  sessions      Session[]
-  alerts        PriceAlert[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-}
-
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
-}
-
-// QuickCompare Core Models
-
-model Product {
-  id                  String           @id @default(cuid())
-  normalized_name     String
-  display_name        String
-  brand               String?
-  category            ProductCategory?
-  subcategory         String?
-  quantity            Float?
-  unit                String?
-  canonical_image_url String?
-  search_keywords     String?
-  
-  // Matching Metadata
-  matchingMethod      MatchStrategy @default(DETERMINISTIC)
-  matchingConfidence  Float?
-  matchedAt           DateTime?
-  
-  createdAt           DateTime         @default(now())
-  updatedAt           DateTime         @updatedAt
-  deletedAt           DateTime?
-  
-  // Note: pgvector unsupported type must be typed carefully in Prisma
-  // To avoid migration issues initially without a raw SQL setup, we'll store embedding as Unsupported("vector(768)")?
-  embedding           Unsupported("vector(768)")?
-  
-  listings            Listing[]
-  aliases             ProductAlias[]
-  sourceReviews       ProductMatchReview[] @relation("SourceReviews")
-  targetReviews       ProductMatchReview[] @relation("TargetReviews")
-  alerts              PriceAlert[]
-
-  @@unique([normalized_name, quantity, unit, brand])
-  @@index([normalized_name])
-  @@index([category])
-}
-
-model Platform {
-  id        String       @id @default(cuid())
-  name      String       @unique
-  slug      String       @unique
-  type      PlatformType @default(QUICK_COMMERCE)
-  website   String?
-  logo      String?
-  active    Boolean      @default(true)
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
-  
-  listings  Listing[]
-  aliases   ProductAlias[]
-}
-
-model Listing {
-  id                String       @id @default(cuid())
-  productId         String
-  platformId        String
-  platformProductId String
-  productUrl        String?
-  currentPrice      Decimal
-  originalPrice     Decimal?
-  discount          Decimal?
-  inStock           Boolean      @default(true)
-  rating            Float?
-  deliveryTime      String?
-  imageUrl          String?
-  lastScrapedAt     DateTime     @default(now())
-  createdAt         DateTime     @default(now())
-  updatedAt         DateTime     @updatedAt
-  deletedAt         DateTime?
-
-  product           Product      @relation(fields: [productId], references: [id], onDelete: Restrict)
-  platform          Platform     @relation(fields: [platformId], references: [id], onDelete: Restrict)
-  priceHistory      PriceHistory[]
-
-  @@unique([platformId, platformProductId])
-  @@index([productId])
-  @@index([platformId])
-  @@index([currentPrice])
-  @@index([lastScrapedAt])
-}
-
-model ProductAlias {
-  id                String   @id @default(cuid())
-  productId         String
-  platformId        String
-  platformProductId String
-  platformTitle     String
-  normalizedTitle   String
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-
-  product           Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  platform          Platform @relation(fields: [platformId], references: [id], onDelete: Cascade)
-
-  @@unique([platformId, platformProductId])
-  @@index([productId])
-  @@index([normalizedTitle])
-}
-
-model ProductMatchReview {
-  id                   String   @id @default(cuid())
-  sourceProductId      String
-  targetProductId      String
-  confidenceScore      Float
-  matchingReason       String
-  matchingStrategy     MatchStrategy
-  status               ReviewStatus  @default(PENDING)
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
-  
-  sourceProduct        Product  @relation("SourceReviews", fields: [sourceProductId], references: [id], onDelete: Cascade)
-  targetProduct        Product  @relation("TargetReviews", fields: [targetProductId], references: [id], onDelete: Cascade)
-}
-
 enum MatchStrategy {
   DETERMINISTIC
   FUZZY
@@ -207,21 +227,6 @@ enum ReviewStatus {
   REJECTED
 }
 
-model PriceHistory {
-  id         String   @id @default(cuid())
-  listingId  String
-  price      Decimal
-  recordedAt DateTime @default(now())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  listing    Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
-
-  @@index([listingId])
-  @@index([recordedAt])
-  @@index([listingId, recordedAt])
-}
-
 enum AlertCondition {
   BELOW
   ABOVE
@@ -231,26 +236,4 @@ enum ContactMethod {
   EMAIL
   PUSH
   WHATSAPP
-}
-
-model PriceAlert {
-  id              String         @id @default(cuid())
-  productId       String
-  userId          String?
-  targetPrice     Decimal
-  condition       AlertCondition @default(BELOW)
-  contactMethod   ContactMethod  @default(EMAIL)
-  contactAddress  String         
-  isActive        Boolean        @default(true)
-  lastTriggeredAt DateTime?
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
-
-  product         Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
-  user            User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([productId])
-  @@index([userId])
-  @@index([contactAddress])
-  @@index([isActive])
 }

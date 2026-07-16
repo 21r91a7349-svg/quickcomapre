@@ -48,10 +48,24 @@ export class ProductMatcher {
     return tokens;
   }
 
-  private checkGuardrails(item: NormalizedProduct, candidate: Product): { pass: boolean, reason: string } {
+  private normalizeQuantity(qty: number | null, unit: string | null): { qty: number | null, unit: string | null } {
+    if (qty === null || unit === null) return { qty, unit };
+    const u = unit.toLowerCase().trim();
+    if (u === 'l' || u === 'liter' || u === 'liters' || u === 'litre') {
+      return { qty: qty * 1000, unit: 'ml' };
+    }
+    if (u === 'kg' || u === 'kilo' || u === 'kilogram') {
+      return { qty: qty * 1000, unit: 'g' };
+    }
+    return { qty, unit: u };
+  }
+
+  checkGuardrails(item: NormalizedProduct, candidate: Product): { pass: boolean, reason: string } {
     // 1. Category
     if (item.category && candidate.category && item.category !== candidate.category) {
-      return { pass: false, reason: 'Category mismatch' };
+      if (item.category !== 'OTHER' && candidate.category !== 'OTHER') {
+        return { pass: false, reason: 'Category mismatch' };
+      }
     }
 
     // 2. Brand
@@ -62,10 +76,13 @@ export class ProductMatcher {
     }
 
     // 3. Quantity & Unit
-    if (item.quantity !== null && candidate.quantity !== null && item.quantity !== candidate.quantity) {
+    const normItem = this.normalizeQuantity(item.quantity, item.unit);
+    const normCand = this.normalizeQuantity(candidate.quantity, candidate.unit);
+
+    if (normItem.qty !== null && normCand.qty !== null && normItem.qty !== normCand.qty) {
       return { pass: false, reason: 'Quantity mismatch' };
     }
-    if (item.unit && candidate.unit && item.unit.toLowerCase() !== candidate.unit.toLowerCase()) {
+    if (normItem.unit && normCand.unit && normItem.unit !== normCand.unit) {
       return { pass: false, reason: 'Unit mismatch' };
     }
 

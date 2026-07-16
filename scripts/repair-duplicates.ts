@@ -135,6 +135,7 @@ async function runRepair() {
             if (bestCandidate && bestScore >= 0.70) {
                 summaryCsv += `${product.id},${bestCandidate.id},${bestScore},MERGE\n`;
                 detailsJson.push({
+                    score: bestScore,
                     source: { id: product.id, name: product.display_name },
                     target: { id: bestCandidate.id, name: bestCandidate.display_name },
                     explanation: bestExplanation
@@ -151,11 +152,20 @@ async function runRepair() {
     fs.writeFileSync('merge_details.json', JSON.stringify(detailsJson, null, 2));
     fs.writeFileSync('rollback.json', JSON.stringify(rollbackJson, null, 2));
 
+    // Top 20 Merge Candidates Report
+    const sortedMerges = detailsJson.sort((a, b) => b.score - a.score).slice(0, 20);
+    let top20Csv = 'Confidence,Product A,Product B,Decision\n';
+    for (const m of sortedMerges) {
+        top20Csv += `${m.score.toFixed(4)},"${m.source.name}","${m.target.name}",${m.explanation.decision}\n`;
+    }
+    fs.writeFileSync('top20_merges.csv', top20Csv);
+
     console.log('Dry-run complete!');
     console.log(`Generated reports for ${detailsJson.length} proposed merges.`);
     console.log('- merge_summary.csv');
     console.log('- merge_details.json');
     console.log('- rollback.json');
+    console.log('- top20_merges.csv');
 }
 
 runRepair().catch(console.error).finally(() => process.exit(0));

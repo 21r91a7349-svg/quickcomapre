@@ -1,0 +1,2132 @@
+{
+  "milk": {
+    "beforeCount": 67,
+    "afterCount": 67,
+    "products": [
+      {
+        "id": "cmrmizkei0002zkf0v8mh2cg1",
+        "name": "Spiced Buttermilk",
+        "brand": "Amul",
+        "quantity": 200,
+        "unit": "ml",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizkpk0008zkf0n2hlm8ve",
+        "name": "Lactose Free Milk",
+        "brand": "Amul",
+        "quantity": 250,
+        "unit": "ml",
+        "listings": 4,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizomr002nzkf0a0wnaaeb",
+        "name": "Amul Camel Milk",
+        "brand": "Amul",
+        "quantity": 200,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizoj4002ezkf01e3980fs",
+        "name": "Amul Gold Full Cream Milk",
+        "brand": "Amul",
+        "quantity": 1,
+        "unit": "l",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizojd002izkf0nhgo2luw",
+        "name": "Amul Slim 'n' Trim Skimmed Milk (Zero Cholesterol)",
+        "brand": "Amul",
+        "quantity": 1,
+        "unit": "l",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizp1o0039zkf0xfwfwa5v",
+        "name": "Amul Pure Milk Cheese Block",
+        "brand": "Amul",
+        "quantity": 400,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9l2x0007rcf01mzlo1ay",
+        "name": "Mother Dairy FIT Life Homogenized Double Toned Milk (450 ml)",
+        "brand": "Mother Dairy",
+        "quantity": 450,
+        "unit": "ml",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrmizkpo0009zkf0zfsfbwsy",
+        "name": "Moti Homogenised Toned Milk",
+        "brand": "Amul",
+        "quantity": 450,
+        "unit": "ml",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizkq6000czkf0m8tsr0yl",
+        "name": "Milk Chocolate - Smooth & Creamy",
+        "brand": "Amul",
+        "quantity": 40,
+        "unit": "g",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizojf002jzkf0s6z4umjw",
+        "name": "Amul Taaza Toned Milk - Pack of 2",
+        "brand": "Amul",
+        "quantity": 200,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizoj6002fzkf0mfeqatut",
+        "name": "Amul Moti Toned Milk (90 Days Shelf Life)",
+        "brand": "Amul",
+        "quantity": 450,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizoqo002yzkf0df26znor",
+        "name": "Amul Kool Badam Flavoured Milk",
+        "brand": "Amul Kool",
+        "quantity": 180,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9l9k000ercf0zj3tk90k",
+        "name": "Mother Dairy Pro Milk",
+        "brand": "Mother Dairy",
+        "quantity": 500,
+        "unit": "ml",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrmizkpq000azkf0ljvtrj6n",
+        "name": "Taaza Homogenised Toned Milk",
+        "brand": "Amul",
+        "quantity": 1,
+        "unit": "l",
+        "listings": 4,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizl5s000yzkf06zf562le",
+        "name": "Sweetened Condensed Milk - Classic",
+        "brand": "Amul",
+        "quantity": 210,
+        "unit": "g",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizkqk000ezkf03t5eu99h",
+        "name": "Gold Homogenised Standardised Milk",
+        "brand": "Amul",
+        "quantity": 500,
+        "unit": "ml",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizoj0002dzkf0fyg3nwxb",
+        "name": "Amul Taaza Toned Milk",
+        "brand": "Amul",
+        "quantity": 500,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizoml002kzkf07wn1xc0c",
+        "name": "Amul Buffalo A2 Milk",
+        "brand": "Amul",
+        "quantity": 1,
+        "unit": "l",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizoj8002gzkf0sue4jluh",
+        "name": "Amul Buffalo A2 Milk",
+        "brand": "Amul",
+        "quantity": 500,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizomu002pzkf0rjrt3xss",
+        "name": "Amul Kool Kesar Flavoured Milk",
+        "brand": "Amul Kool",
+        "quantity": 180,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizp1s003bzkf0jpj8rtue",
+        "name": "Amul Kool Rose Flavoured Milk",
+        "brand": "Amul Kool",
+        "quantity": 180,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9l9m000frcf0khaquqae",
+        "name": "Mother Dairy Full Cream Milk",
+        "brand": "Mother Dairy",
+        "quantity": 500,
+        "unit": "ml",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9sai0044rcf0inzbouar",
+        "name": "Rusk - Milk",
+        "brand": "Tasties",
+        "quantity": 200,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9sem0049rcf096sxk33c",
+        "name": "Coconut A2 Milk Drink",
+        "brand": "Desi Farms",
+        "quantity": 150,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizkqc000dzkf0fzmep6pr",
+        "name": "India Single Origin Milk Chocolate",
+        "brand": "Amul",
+        "quantity": 125,
+        "unit": "g",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizl5q000xzkf0tcxm4dbx",
+        "name": "Sweetened Condensed Milk Mithai Mate",
+        "brand": "Amul",
+        "quantity": 200,
+        "unit": "g",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizoja002hzkf0scqd87cm",
+        "name": "Amul Gold Milk",
+        "brand": "Amul",
+        "quantity": 1,
+        "unit": "l",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizp1q003azkf0uuevg0qa",
+        "name": "Amul Kool Elaichi Flavoured Milk",
+        "brand": "Amul Kool",
+        "quantity": 180,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9lai000grcf0uyac04tj",
+        "name": "Mother Dairy FIT Life Homogenized Double Toned Milk",
+        "brand": "Mother Dairy",
+        "quantity": 115,
+        "unit": "ml",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9sag0042rcf0bstzlqgx",
+        "name": "Slim Milk",
+        "brand": "Nestle A+",
+        "quantity": 1,
+        "unit": "l",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9sak0046rcf0xjgnl1n8",
+        "name": "Chocolate A2 Milk Drink",
+        "brand": "Desi Farms",
+        "quantity": 150,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9sep004crcf0p4h55131",
+        "name": "Kool Cafe - Milk & Coffee",
+        "brand": "Amul",
+        "quantity": 200,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9sf1004drcf0oqv0007c",
+        "name": "Probiotic Fermented Milk Drink",
+        "brand": "Yakult",
+        "quantity": 65,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9swu004xrcf0e4731e0z",
+        "name": "Banana Flavoured Coconut Milk",
+        "brand": "HandS",
+        "quantity": 200,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizkou0005zkf0xfhxaukb",
+        "name": "Pure Milk Cheese Slices",
+        "brand": "Amul",
+        "quantity": 400,
+        "unit": "g",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizl66000zzkf03rk79kgj",
+        "name": "Gold Sweetened Condensed Milk",
+        "brand": "Amul",
+        "quantity": 405,
+        "unit": "g",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizks5000fzkf0fnk612ln",
+        "name": "Pure Milk Block Cheese",
+        "brand": "Amul",
+        "quantity": 500,
+        "unit": "g",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizoiy002czkf04hk3vitb",
+        "name": "Amul Cow Milk",
+        "brand": "Amul",
+        "quantity": 500,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizomo002lzkf0eyuontl2",
+        "name": "Amul Cow Milk",
+        "brand": "Amul",
+        "quantity": 1,
+        "unit": "l",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9kf80001rcf0dh0vtgig",
+        "name": "Mother Dairy Toned Milk",
+        "brand": "Mother Dairy",
+        "quantity": 1,
+        "unit": "l",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9knl0002rcf0k392ycbo",
+        "name": "Mother Dairy Milk",
+        "brand": "Mother Dairy",
+        "quantity": 180,
+        "unit": "ml",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9l320009rcf0h59op9jf",
+        "name": "Country Delight 25 g High Protein Chocolate Milk",
+        "brand": "Country Delight",
+        "quantity": 250,
+        "unit": "ml",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9laj000hrcf0h22ucwma",
+        "name": "Nestle a+ Toned Milk",
+        "brand": "Nestle a+",
+        "quantity": 1,
+        "unit": "l",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9sad003zrcf00wojtnm8",
+        "name": "Badam Milk",
+        "brand": "Cothas",
+        "quantity": 250,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9saf0040rcf0hby1tjsr",
+        "name": "Milkshake - Double Chocolate Flavour",
+        "brand": "Amul",
+        "quantity": 180,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizksp000gzkf02preemtg",
+        "name": "Pure Milk Cheese Cubes",
+        "brand": "Amul",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizl6w0010zkf03ww22ry9",
+        "name": "Lite Milk Fat Bread Spread",
+        "brand": "Amul",
+        "quantity": 100,
+        "unit": "g",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizon7002szkf0defihdcy",
+        "name": "Amul Kool Cafe Milk 'n' Coffee Flavoured Milk (Can)",
+        "brand": "Amul Kool Cafe",
+        "quantity": 200,
+        "unit": "ml",
+        "listings": 2,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizp22003czkf0h1p60emo",
+        "name": "Amul Kool Strawberry Flavoured Milk",
+        "brand": "Amul Kool",
+        "quantity": 200,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9ks10003rcf09qonesi1",
+        "name": "Country Delight 25 g High Protein Vanilla Milk",
+        "brand": "Country Delight",
+        "quantity": 250,
+        "unit": "ml",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9l2z0008rcf0ofm720sl",
+        "name": "Nestle a+ Slim Skimmed Milk",
+        "brand": "Nestle a+",
+        "quantity": 1,
+        "unit": "l",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9lav000ircf05pt3j52j",
+        "name": "Amul Buffalo Milk (90 Days Shelf Life)",
+        "brand": "Amul",
+        "quantity": 450,
+        "unit": "ml",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9sag0041rcf01ab945um",
+        "name": "Vanilla Milkshake",
+        "brand": "Milky Mist",
+        "quantity": 1,
+        "unit": "l",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9saj0045rcf0o07m7u6t",
+        "name": "Strawberry Flavoured Coconut Milk",
+        "brand": "HandS",
+        "quantity": 200,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9sd00048rcf0ko2btzam",
+        "name": "Kool Koko - Chocolate Milk",
+        "brand": "Amul",
+        "quantity": 200,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9seo004brcf0lzuokzcc",
+        "name": "Organic Slim Milk",
+        "brand": "Akshayakalpa",
+        "quantity": 200,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9swt004wrcf09ibvhpc2",
+        "name": "Thandai Badam Milk",
+        "brand": "Lotus Dairy",
+        "quantity": 180,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizkph0007zkf0onn3leww",
+        "name": "Taaza Milk",
+        "brand": "Amul",
+        "quantity": 500,
+        "unit": "ml",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizomq002mzkf0u1z7mnnt",
+        "name": "Amul Calci+ Calcium Rich High Protein Milk",
+        "brand": "Amul",
+        "quantity": 250,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizozf0038zkf0n8aue0uc",
+        "name": "Amul Kadai Doodh Flavoured Milk",
+        "brand": "Amul",
+        "quantity": 200,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "orphan1",
+        "name": "Test Interrupted Milk",
+        "brand": null,
+        "quantity": null,
+        "unit": null,
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9l2j0005rcf09w7fzdr6",
+        "name": "Humpy Farms A2 Cow Milk",
+        "brand": "Humpy Farms",
+        "quantity": 500,
+        "unit": "ml",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9sah0043rcf0xad62gwm",
+        "name": "Chocolate Flavoured Milk",
+        "brand": "Smoodh",
+        "quantity": 80,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9sal0047rcf0zlxhvz25",
+        "name": "Mango Milkshake",
+        "brand": "Milky Mist",
+        "quantity": 1,
+        "unit": "l",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9sen004arcf096kxrkyb",
+        "name": "Bandung Rose Milk Drink",
+        "brand": "Pokka",
+        "quantity": 240,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9snt004qrcf0hkfzj4ok",
+        "name": "Kool Milk - Rose Flavour",
+        "brand": "Amul",
+        "quantity": 180,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9suj004vrcf0y83ug11i",
+        "name": "Mocha Cold Coffee With Milk",
+        "brand": "Blue Tokai",
+        "quantity": 220,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      }
+    ]
+  },
+  "rice": {
+    "beforeCount": 44,
+    "afterCount": 40,
+    "products": [
+      {
+        "id": "cmrnm9m4v0011rcf0eooo4byl",
+        "name": "Kisaansay Telangana Sona Low GI Rice",
+        "brand": "Kisaansay",
+        "quantity": 2,
+        "unit": "kg",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9m02000vrcf0nwneocof",
+        "name": "Daawat Delight Basmati Rice - Superior Flavour Absorption (Long Grain)",
+        "brand": "Daawat",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9m4w0012rcf08wl4i25r",
+        "name": "India Gate Everyday Basmati Rice (Medium Grain)",
+        "brand": "India Gate",
+        "quantity": 5,
+        "unit": "kg",
+        "listings": 2,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9m4w0013rcf0dgdqvzks",
+        "name": "Daawat Pulav Basmati Rice (Long Grain)",
+        "brand": "Daawat",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9mjc001rrcf0oah5scdj",
+        "name": "India Gate Daily Premium Basmati Rice (Long Grain)",
+        "brand": "India Gate",
+        "quantity": 5,
+        "unit": "kg",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9njq001xrcf0231hygwa",
+        "name": "Galaxy 1121 Jumbo Basmati Rice (Extra Long Grain)",
+        "brand": "Galaxy",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9lzw000rrcf0sfhqftze",
+        "name": "India Gate Super Basmati Rice (Extra Long Grain)",
+        "brand": "India Gate",
+        "quantity": 5,
+        "unit": "kg",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9m03000wrcf0hreajddz",
+        "name": "Daawat Rozana Super Basmati Rice (Medium Grain)",
+        "brand": "Daawat",
+        "quantity": 5,
+        "unit": "kg",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9nl2001zrcf0j5dtrmlc",
+        "name": "Whole Farm Grocery Raw Broken Rice",
+        "brand": "Whole Farm Grocery",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9ysk0067rcf0pufdlj0d",
+        "name": "Rice/Akki - Raw, Sona Masoori",
+        "brand": "bb Royal",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9ysq0068rcf051au0vzq",
+        "name": "Jeera/Jeeraga Samba Rice/Akki",
+        "brand": "bb Royal",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9lzy000srcf01l43s4p5",
+        "name": "India Gate Dubar Basmati Rice (Long Grain)",
+        "brand": "India Gate",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9m04000xrcf02b4ssf2a",
+        "name": "Daawat Biryani Rice (Extra Long Grain)",
+        "brand": "Daawat",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9m05000yrcf0g04wktgs",
+        "name": "Whole Farm Premium Parmal Rice",
+        "brand": "Whole Farm",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9m4y0015rcf01g4eqavu",
+        "name": "Daawat Platinum Rozana Basmati Rice (Long Grain)",
+        "brand": "Daawat",
+        "quantity": 5,
+        "unit": "kg",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9m520018rcf00qli1ti0",
+        "name": "India Gate Super Basmati Rice (1 kg + 500 g) (Extra Long Grain)",
+        "brand": "India Gate",
+        "quantity": 1.5,
+        "unit": "kg",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9ndb001wrcf0w79eweag",
+        "name": "Galaxy Gulab Basmati Rice (Extra Long Grain)",
+        "brand": "Galaxy",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9nl30020rcf00jz6z234",
+        "name": "Whole Farm Grocery Broken Mogra Basmati Rice (Short Grain)",
+        "brand": "Whole Farm Grocery",
+        "quantity": 5,
+        "unit": "kg",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9m01000urcf0cbtx3aea",
+        "name": "Fortune Rozana-Gold Basmati Rice (Long Grain)",
+        "brand": "Fortune",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9ysq0069rcf0r1agengj",
+        "name": "Mappillai Samba Rice/ Bridegrooms Rice",
+        "brand": "bb Royal",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9ysr006arcf0dhgdghy5",
+        "name": "HMT Kolam Rice/Akki",
+        "brand": "bb Royal",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9ysw006ercf09k1od619",
+        "name": "karuppu Kavuni Rice/ Black Rice",
+        "brand": "bb Royal",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9ysx006frcf0irdaiik9",
+        "name": "Gobind Bhog Rice/Akki",
+        "brand": "bb Royal",
+        "quantity": 5,
+        "unit": "kg",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9z38006hrcf0m176oidt",
+        "name": "Rice/Akki - Raw, Sona Masoori",
+        "brand": "bb Popular",
+        "quantity": 5,
+        "unit": "kg",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9ysv006drcf0vzum44jx",
+        "name": "Rice/Akki - Jeera/Jeeraga Samba",
+        "brand": "bb Popular",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9m00000trcf0s8otsrje",
+        "name": "Daawat Rozana Gold Basmati Rice Tibar (Medium Grain)",
+        "brand": "Daawat",
+        "quantity": 5,
+        "unit": "kg",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9m06000zrcf0e37hbdqp",
+        "name": "Daawat Rozana-Super Basmati Rice (Medium Grain)",
+        "brand": "Daawat",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9m500017rcf0ubxkfer1",
+        "name": "Daawat Rozana Gold Tibar Basmati Rice (Medium Grain)",
+        "brand": "Daawat",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9m530019rcf0c196p7mr",
+        "name": "Daawat Super Basmati Rice (Extra Long Grain)",
+        "brand": "Daawat",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9ncu001trcf01lvi29bi",
+        "name": "India Gate Everyday Basmati Rice (Medium Grain)",
+        "brand": "India Gate",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 2,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9ysh0066rcf0nr6pyrqj",
+        "name": "Hand Pound Rice/Akki",
+        "brand": "bb Royal",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9ysv006crcf0uijk55dd",
+        "name": "Raw Rice/Akki - Kolam",
+        "brand": "bb Royal",
+        "quantity": 5,
+        "unit": "kg",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9ysr006brcf0da4j9iob",
+        "name": "Sona Masoori Rice/Akki Raw Rice/Akki - Super Premium",
+        "brand": "bb Royal",
+        "quantity": 10,
+        "unit": "kg",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9z37006grcf0uamy1qa9",
+        "name": "Ponni Raw Rice/Akki",
+        "brand": "bb Royal",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9z4f006ircf0yfmjabg8",
+        "name": "Red Raw Rice/Akki",
+        "brand": "bb Popular",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9z4h006krcf0lfsf5q7k",
+        "name": "Rice/Akki Surti Kolam",
+        "brand": "bb Royal",
+        "quantity": 5,
+        "unit": "kg",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnma0540073rcf04737ya5u",
+        "name": "Ponni Raw Rice/Akki - Super Premium",
+        "brand": "bb Royal",
+        "quantity": 5,
+        "unit": "kg",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9z4g006jrcf0dhmrjgup",
+        "name": "Red Raw Rice/Akki",
+        "brand": "bb Royal",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9z4i006lrcf0890gstks",
+        "name": "Rice/Akki - Dosa",
+        "brand": "bb Royal",
+        "quantity": 5,
+        "unit": "kg",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnma0550074rcf0gk7bndz2",
+        "name": "Ambemohar Rice",
+        "brand": "bb Royal",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 0,
+        "platforms": []
+      }
+    ]
+  },
+  "coke": {
+    "beforeCount": 7,
+    "afterCount": 7,
+    "products": [
+      {
+        "id": "cmrmj09d5009szkf0gotj6nra",
+        "name": "Glossy Hair Tin Natural Looking Hair Colour - Cherry Coke, True Red",
+        "brand": "Paradyes",
+        "quantity": 160,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmj0h8j00c8zkf0rmtsw7rr",
+        "name": "Coca-Cola Diet Coke Soft Drink No Caffeine",
+        "brand": "Coca-Cola",
+        "quantity": 330,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmj0h5900bzzkf0ezr9wxex",
+        "name": "Coca-Cola Diet Coke Diets & Lights",
+        "brand": "Coca-Cola",
+        "quantity": 330,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmj09gs00a3zkf03xkmk0q4",
+        "name": "Diet Coke Soft Drink + Original Taste Soft Drink, Each 300 ml",
+        "brand": "Coca Cola",
+        "quantity": null,
+        "unit": null,
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmj09e4009zzkf0vi5ir7r2",
+        "name": "Coke",
+        "brand": "Coca Cola",
+        "quantity": 180,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmj09dv009xzkf0qn22d5yj",
+        "name": "Diet Coke",
+        "brand": "Coca Cola",
+        "quantity": 330,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmj0h5m00c5zkf0oo0i1bmy",
+        "name": "Coca-Cola Diet Coke Soft Drink",
+        "brand": "Coca-Cola",
+        "quantity": 200,
+        "unit": "ml",
+        "listings": 2,
+        "platforms": [
+          null
+        ]
+      }
+    ]
+  },
+  "maggi": {
+    "beforeCount": 36,
+    "afterCount": 35,
+    "products": [
+      {
+        "id": "cmrmizx9i004wzkf088aqsfp9",
+        "name": "Double Masala Instant Noodles",
+        "brand": "Maggi",
+        "quantity": 95,
+        "unit": "g",
+        "listings": 2,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizx9k004xzkf0bqh0t1r5",
+        "name": "Rich Tomato Ketchup",
+        "brand": "Maggi",
+        "quantity": 80,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizxcs0053zkf0tn9clof7",
+        "name": "Chilly Chow Cuppa Instant Noodles",
+        "brand": "Maggi",
+        "quantity": 70,
+        "unit": "g",
+        "listings": 2,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizxd00054zkf0ziv4x777",
+        "name": "Nutri-Licious Veg Atta Instant Noodles",
+        "brand": "Maggi",
+        "quantity": 435,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizxt7005szkf0gft4s61f",
+        "name": "Spicy Garlic Instant Cuppa Noodles",
+        "brand": "Maggi",
+        "quantity": 70.5,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizxq1005ozkf09loqipfn",
+        "name": "2-Minute Instant Masala Noodles",
+        "brand": "Maggi",
+        "quantity": 840,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizx9s0051zkf0gq2rkjsj",
+        "name": "Masala-Ae-Magic Mixed Masala Powder",
+        "brand": "Maggi",
+        "quantity": 72,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizx9u0052zkf09p0q52hp",
+        "name": "Spicy Cheesy Instant Noodles",
+        "brand": "Maggi",
+        "quantity": 76,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizxdf0058zkf0p6lpj4br",
+        "name": "Pazzta Cheese Macaroni Instant Pasta",
+        "brand": "Maggi",
+        "quantity": 75,
+        "unit": "g",
+        "listings": 2,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizxsh005pzkf0abv1kz0k",
+        "name": "Spicy Cheesy Instant Cuppa Noodles",
+        "brand": "Maggi",
+        "quantity": 71.5,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizxsn005qzkf0r1m2e5hd",
+        "name": "Spicy Manchurian Instant Cuppa Noodles",
+        "brand": "Maggi",
+        "quantity": 70.5,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmj013b0078zkf0xg1ih0a1",
+        "name": "Maggi 2 - Minute Instant Noodles Made With Quality Spices",
+        "brand": "Maggi",
+        "quantity": 900,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmj013c0079zkf0948ep6uw",
+        "name": "Maggi 2 Minutes Instant Noodles Made With Quality Spices",
+        "brand": "Maggi",
+        "quantity": 420,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmj016m007jzkf0r8ampen8",
+        "name": "Maggi Nutrilicious Veg Atta Noodles Made with Only Atta Flour",
+        "brand": "Maggi Nutrilicious",
+        "quantity": 290,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmj016r007lzkf05c6nhdp5",
+        "name": "Maggi Hot & Sweet Tomato Chilli Sauce 200 g",
+        "brand": "Maggi",
+        "quantity": 200,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmj016l007izkf0abxkqgnu",
+        "name": "Maggi Masala-ae-Magic Sabzi Masala (20 Sachets)",
+        "brand": "Maggi",
+        "quantity": 120,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmj01hl0083zkf0ffnwuidh",
+        "name": "Maggi Pazzta Cheesy Tomato Twist Instant Pasta",
+        "brand": "Maggi",
+        "quantity": 68.5,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmj01jw0086zkf0jevh4ydd",
+        "name": "Maggi Spicy Garlic Instant Noodles",
+        "brand": "Maggi Spicy",
+        "quantity": 248,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizx9q0050zkf0jz8mq59o",
+        "name": "Spicy Garlic Instant Noodles",
+        "brand": "Maggi",
+        "quantity": 62,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizxdb0057zkf0kpnfaqqs",
+        "name": "Spicy Green Chilli Instant Noodles With Seasoning",
+        "brand": "Maggi",
+        "quantity": 62,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmj013d007azkf0wjvpo1hx",
+        "name": "Maggi Masala - 2 Minutes Instant Noodles Made With Quality Spices",
+        "brand": "Maggi",
+        "quantity": 300,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmj01if0084zkf0sirw0po3",
+        "name": "Maggi Pazzta Masala Penne Instant Pasta",
+        "brand": "Maggi",
+        "quantity": 69.5,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizx9l004yzkf0um0ea4j9",
+        "name": "Instant Chicken Noodles",
+        "brand": "Maggi",
+        "quantity": 284,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizxpv005mzkf03w4dungr",
+        "name": "Hot & Sweet Tomato Chilli Sauce",
+        "brand": "Maggi",
+        "quantity": 80,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizxd50055zkf0xe6fusb4",
+        "name": "2-Minute Special Masala Instant Noodles",
+        "brand": "Maggi",
+        "quantity": 75,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmj016q007kzkf02hwvk5oc",
+        "name": "Maggi Hot & Sweet Tomato Chilli Sauce 1 kg",
+        "brand": "Maggi",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmj01js0085zkf0boyn6vrt",
+        "name": "Maggi Magic Cubes - Chicken Masala",
+        "brand": "Maggi",
+        "quantity": 40,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizx9n004zzkf0a4uwgqb6",
+        "name": "Spicy Manchurian Noodles",
+        "brand": "Maggi",
+        "quantity": 61,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizxd70056zkf0qw1s4icr",
+        "name": "Rich Tomato Sauce, No Onion & Garlic",
+        "brand": "Maggi",
+        "quantity": 970,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizxpz005nzkf0jm94se5i",
+        "name": "Masala Cuppa Noodles",
+        "brand": "Maggi",
+        "quantity": 70.5,
+        "unit": "g",
+        "listings": 2,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmj01k60087zkf0zkh3i7g4",
+        "name": "Maggi Spicy Cheesy Instant Noodles",
+        "brand": "Maggi Spicy",
+        "quantity": 304,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizxt6005rzkf0hucv3ht0",
+        "name": "Pazzta Mushroom Penne Instant Pasta",
+        "brand": "Maggi",
+        "quantity": 68.5,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmj013j007ezkf0x4hvils5",
+        "name": "Maggi Masala-ae-Magic Sabzi Masala",
+        "brand": "Maggi",
+        "quantity": 72,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmj013l007fzkf0f7thabwt",
+        "name": "Maggi Spicy Cheesy Cup Noodles",
+        "brand": "Maggi Spicy",
+        "quantity": 71.5,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmj01b6007yzkf0xvicxemq",
+        "name": "Maggi Rich Tomato Ketchup",
+        "brand": "Maggi",
+        "quantity": 190,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      }
+    ]
+  },
+  "onion": {
+    "beforeCount": 1,
+    "afterCount": 1,
+    "products": [
+      {
+        "id": "cmrmizxd70056zkf0qw1s4icr",
+        "name": "Rich Tomato Sauce, No Onion & Garlic",
+        "brand": "Maggi",
+        "quantity": 970,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      }
+    ]
+  },
+  "amul": {
+    "beforeCount": 46,
+    "afterCount": 46,
+    "products": [
+      {
+        "id": "cmrmizkei0002zkf0v8mh2cg1",
+        "name": "Spiced Buttermilk",
+        "brand": "Amul",
+        "quantity": 200,
+        "unit": "ml",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizkpv000bzkf08so7dyrf",
+        "name": "Amul Khoa",
+        "brand": "Amul",
+        "quantity": 200,
+        "unit": "g",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizkpk0008zkf0n2hlm8ve",
+        "name": "Lactose Free Milk",
+        "brand": "Amul",
+        "quantity": 250,
+        "unit": "ml",
+        "listings": 4,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizomr002nzkf0a0wnaaeb",
+        "name": "Amul Camel Milk",
+        "brand": "Amul",
+        "quantity": 200,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizoj4002ezkf01e3980fs",
+        "name": "Amul Gold Full Cream Milk",
+        "brand": "Amul",
+        "quantity": 1,
+        "unit": "l",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizojd002izkf0nhgo2luw",
+        "name": "Amul Slim 'n' Trim Skimmed Milk (Zero Cholesterol)",
+        "brand": "Amul",
+        "quantity": 1,
+        "unit": "l",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizp1o0039zkf0xfwfwa5v",
+        "name": "Amul Pure Milk Cheese Block",
+        "brand": "Amul",
+        "quantity": 400,
+        "unit": "g",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizkb00001zkf09yypaug9",
+        "name": "Ice Cream - Vanilla Magic",
+        "brand": "Amul",
+        "quantity": 1,
+        "unit": "l",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizkpo0009zkf0zfsfbwsy",
+        "name": "Moti Homogenised Toned Milk",
+        "brand": "Amul",
+        "quantity": 450,
+        "unit": "ml",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizkq6000czkf0m8tsr0yl",
+        "name": "Milk Chocolate - Smooth & Creamy",
+        "brand": "Amul",
+        "quantity": 40,
+        "unit": "g",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizojf002jzkf0s6z4umjw",
+        "name": "Amul Taaza Toned Milk - Pack of 2",
+        "brand": "Amul",
+        "quantity": 200,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizoms002ozkf0dy5her8q",
+        "name": "Amulspray Ready to Feed Infant Formula",
+        "brand": "Amulspray",
+        "quantity": 250,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizoj6002fzkf0mfeqatut",
+        "name": "Amul Moti Toned Milk (90 Days Shelf Life)",
+        "brand": "Amul",
+        "quantity": 450,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizoqo002yzkf0df26znor",
+        "name": "Amul Kool Badam Flavoured Milk",
+        "brand": "Amul Kool",
+        "quantity": 180,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizkl50004zkf0pdiuwtkr",
+        "name": "High Protein Probiotic Dahi",
+        "brand": "Amul",
+        "quantity": 400,
+        "unit": "g",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizkpq000azkf0ljvtrj6n",
+        "name": "Taaza Homogenised Toned Milk",
+        "brand": "Amul",
+        "quantity": 1,
+        "unit": "l",
+        "listings": 4,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizl5s000yzkf06zf562le",
+        "name": "Sweetened Condensed Milk - Classic",
+        "brand": "Amul",
+        "quantity": 210,
+        "unit": "g",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizkqk000ezkf03t5eu99h",
+        "name": "Gold Homogenised Standardised Milk",
+        "brand": "Amul",
+        "quantity": 500,
+        "unit": "ml",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizoj0002dzkf0fyg3nwxb",
+        "name": "Amul Taaza Toned Milk",
+        "brand": "Amul",
+        "quantity": 500,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizoml002kzkf07wn1xc0c",
+        "name": "Amul Buffalo A2 Milk",
+        "brand": "Amul",
+        "quantity": 1,
+        "unit": "l",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizoj8002gzkf0sue4jluh",
+        "name": "Amul Buffalo A2 Milk",
+        "brand": "Amul",
+        "quantity": 500,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizomu002pzkf0rjrt3xss",
+        "name": "Amul Kool Kesar Flavoured Milk",
+        "brand": "Amul Kool",
+        "quantity": 180,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizp1s003bzkf0jpj8rtue",
+        "name": "Amul Kool Rose Flavoured Milk",
+        "brand": "Amul Kool",
+        "quantity": 180,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizkhu0003zkf0g0i1bgs0",
+        "name": "Mystic Mocha Chocolate",
+        "brand": "Amul",
+        "quantity": 150,
+        "unit": "g",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizkqc000dzkf0fzmep6pr",
+        "name": "India Single Origin Milk Chocolate",
+        "brand": "Amul",
+        "quantity": 125,
+        "unit": "g",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizl5q000xzkf0tcxm4dbx",
+        "name": "Sweetened Condensed Milk Mithai Mate",
+        "brand": "Amul",
+        "quantity": 200,
+        "unit": "g",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizoja002hzkf0scqd87cm",
+        "name": "Amul Gold Milk",
+        "brand": "Amul",
+        "quantity": 1,
+        "unit": "l",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizp1q003azkf0uuevg0qa",
+        "name": "Amul Kool Elaichi Flavoured Milk",
+        "brand": "Amul Kool",
+        "quantity": 180,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9sep004crcf0p4h55131",
+        "name": "Kool Cafe - Milk & Coffee",
+        "brand": "Amul",
+        "quantity": 200,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizkou0005zkf0xfhxaukb",
+        "name": "Pure Milk Cheese Slices",
+        "brand": "Amul",
+        "quantity": 400,
+        "unit": "g",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizl66000zzkf03rk79kgj",
+        "name": "Gold Sweetened Condensed Milk",
+        "brand": "Amul",
+        "quantity": 405,
+        "unit": "g",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizks5000fzkf0fnk612ln",
+        "name": "Pure Milk Block Cheese",
+        "brand": "Amul",
+        "quantity": 500,
+        "unit": "g",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizoiy002czkf04hk3vitb",
+        "name": "Amul Cow Milk",
+        "brand": "Amul",
+        "quantity": 500,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizomo002lzkf0eyuontl2",
+        "name": "Amul Cow Milk",
+        "brand": "Amul",
+        "quantity": 1,
+        "unit": "l",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9saf0040rcf0hby1tjsr",
+        "name": "Milkshake - Double Chocolate Flavour",
+        "brand": "Amul",
+        "quantity": 180,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizkpd0006zkf0jvh6wxa7",
+        "name": "Rose Lassi",
+        "brand": "Amul",
+        "quantity": 200,
+        "unit": "ml",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizksp000gzkf02preemtg",
+        "name": "Pure Milk Cheese Cubes",
+        "brand": "Amul",
+        "quantity": 1,
+        "unit": "kg",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizl6w0010zkf03ww22ry9",
+        "name": "Lite Milk Fat Bread Spread",
+        "brand": "Amul",
+        "quantity": 100,
+        "unit": "g",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizon7002szkf0defihdcy",
+        "name": "Amul Kool Cafe Milk 'n' Coffee Flavoured Milk (Can)",
+        "brand": "Amul Kool Cafe",
+        "quantity": 200,
+        "unit": "ml",
+        "listings": 2,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizp22003czkf0h1p60emo",
+        "name": "Amul Kool Strawberry Flavoured Milk",
+        "brand": "Amul Kool",
+        "quantity": 200,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9lav000ircf05pt3j52j",
+        "name": "Amul Buffalo Milk (90 Days Shelf Life)",
+        "brand": "Amul",
+        "quantity": 450,
+        "unit": "ml",
+        "listings": 0,
+        "platforms": []
+      },
+      {
+        "id": "cmrnm9sd00048rcf0ko2btzam",
+        "name": "Kool Koko - Chocolate Milk",
+        "brand": "Amul",
+        "quantity": 200,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizkph0007zkf0onn3leww",
+        "name": "Taaza Milk",
+        "brand": "Amul",
+        "quantity": 500,
+        "unit": "ml",
+        "listings": 3,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizomq002mzkf0u1z7mnnt",
+        "name": "Amul Calci+ Calcium Rich High Protein Milk",
+        "brand": "Amul",
+        "quantity": 250,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrmizozf0038zkf0n8aue0uc",
+        "name": "Amul Kadai Doodh Flavoured Milk",
+        "brand": "Amul",
+        "quantity": 200,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      },
+      {
+        "id": "cmrnm9snt004qrcf0hkfzj4ok",
+        "name": "Kool Milk - Rose Flavour",
+        "brand": "Amul",
+        "quantity": 180,
+        "unit": "ml",
+        "listings": 1,
+        "platforms": [
+          null
+        ]
+      }
+    ]
+  }
+}

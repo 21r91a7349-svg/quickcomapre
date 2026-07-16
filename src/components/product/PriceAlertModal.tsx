@@ -75,8 +75,8 @@ export function PriceAlertModal({ productId, productName, currentBestPrice, user
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 gap-2">
-        <Bell className="w-4 h-4" />
+      <DialogTrigger className="inline-flex items-center justify-center whitespace-nowrap rounded-md font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground hover:bg-secondary/80 h-11 rounded-md px-8 flex-1 text-md shadow-sm gap-2">
+        <Bell className="w-5 h-5" />
         Notify Me
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

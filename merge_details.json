@@ -1,5 +1,36 @@
 [
   {
+    "score": 0.8085586666666666,
+    "source": {
+      "id": "cmrmj01e70081zkf0ds19knie",
+      "name": "Maggi Chilly Chow Cuppa Noodles"
+    },
+    "target": {
+      "id": "cmrmizxcs0053zkf0tn9clof7",
+      "name": "Chilly Chow Cuppa Instant Noodles"
+    },
+    "explanation": {
+      "candidate_generation": {
+        "brand": "PASS",
+        "category": "PASS",
+        "quantity": "PASS",
+        "unit": "PASS"
+      },
+      "guardrails": {
+        "variant": "PASS",
+        "flavour": "PASS",
+        "packaging": "PASS"
+      },
+      "semantic": {
+        "token": 0.8333333333333334,
+        "trigram": 0.783784,
+        "embedding": 0
+      },
+      "decision": "REVIEW"
+    }
+  },
+  {
+    "score": 0.8157895,
     "source": {
       "id": "cmrnm9nd8001urcf0v0r500ah",
       "name": "India Gate Feast Rozana Basmati Rice (Medium Grain)"
@@ -29,6 +60,7 @@
     }
   },
   {
+    "score": 0.8157895,
     "source": {
       "id": "cmrnm9nd9001vrcf0wv6k8jg6",
       "name": "India Gate Feast Rozana Basmati Rice (Medium Grain)"
@@ -58,6 +90,7 @@
     }
   },
   {
+    "score": 0.7166668333333333,
     "source": {
       "id": "cmrnma02x0072rcf0nt4n2qcp",
       "name": "Rice/Akki - Ponni, Raw"
@@ -87,6 +120,7 @@
     }
   },
   {
+    "score": 0.7696428571428571,
     "source": {
       "id": "cmrnma09r0076rcf0u8ff109u",
       "name": "New Rice/Akki - Sona Masoori"

@@ -4,24 +4,24 @@ import { BigBasketAdapter } from './adapters/bigbasket';
 import { DatabaseSync, prisma } from './core/db';
 import { ScraperLogger } from './core/logger';
 import { scraperConfig } from './config';
+import { SearchEngine } from './core/search/SearchEngine';
 
 export class ScraperOrchestrator {
   private adapters = [new ZeptoAdapter(), new BlinkitAdapter(), new BigBasketAdapter()];
   private dbSync = new DatabaseSync();
   private logger = new ScraperLogger('Orchestrator');
+  private searchEngine = new SearchEngine();
 
   constructor() {
     this.logger.info(`Registered adapters: \n${this.adapters.map(a => `✓ ${a.getPlatform().name}`).join('\n')}`);
   }
 
-  /**
-   * API Handler: Implements Freshness Waterfall caching logic
-   */
-  async getSearchResults(query: string) {
+  async getSearchResults(query: string, filters?: any, pagination?: any) {
     this.logger.info(`Incoming search request for: ${query}`);
     
     // 1. Fetch from DB
-    const dbProducts = await this.fetchFromDB(query);
+    const dbResponse = await this.fetchFromDB(query, filters, pagination);
+    const dbProducts = dbResponse.results;
     
     // 2. Check Freshness
     let isStale = false;
@@ -31,7 +31,7 @@ export class ScraperOrchestrator {
       const now = Date.now();
       // Check the oldest lastScrapedAt among listings for the search query
       const oldestScrape = dbProducts.reduce((oldest, product) => {
-        const productOldest = product.listings.reduce((min, listing) => {
+        const productOldest = product.listings.reduce((min: number, listing: any) => {
           const scrapeTime = listing.lastScrapedAt.getTime();
           return scrapeTime < min ? scrapeTime : min;
         }, now);
@@ -47,14 +47,14 @@ export class ScraperOrchestrator {
     // 3. Waterfall Logic
     if (hasData && !isStale) {
       this.logger.info('Cache HIT (Fresh)', undefined, { cache_status: 'HIT', query });
-      return dbProducts;
+      return dbResponse;
     }
 
     if (hasData && isStale) {
       this.logger.info('Cache HIT (Stale) - Triggering background refresh', undefined, { cache_status: 'STALE', query });
       // Trigger background refresh but return stale data immediately
       this.searchAndSyncAll(query).catch(e => this.logger.error('Background refresh failed', { error: e.message }));
-      return dbProducts;
+      return dbResponse;
     }
 
     // No data -> await live scrape
@@ -62,10 +62,10 @@ export class ScraperOrchestrator {
     const scrapedCount = await this.searchAndSyncAll(query);
     
     if (scrapedCount > 0) {
-      return this.fetchFromDB(query);
+      return this.fetchFromDB(query, filters, pagination);
     }
     
-    return [];
+    return dbResponse;
   }
 
   /**
@@ -121,59 +121,17 @@ export class ScraperOrchestrator {
     return totalSynced;
   }
 
-  private async fetchFromDB(query: string) {
+  private async fetchFromDB(query: string, filters?: any, pagination?: any) {
     try {
-      console.log('[DIAGNOSTIC] D. Before fetchFromDB() (Prisma call)');
-      // Simple ILIKE search using Prisma
-      const dbProducts = await prisma.product.findMany({
-        where: {
-          OR: [
-            { display_name: { contains: query, mode: 'insensitive' } },
-            { brand: { contains: query, mode: 'insensitive' } }
-          ]
-        },
-        include: {
-          listings: {
-            include: {
-              platform: true
-            }
-          }
-        }
-      });
-      console.log('[DIAGNOSTIC] E. After fetchFromDB() (Prisma call)');
-
-      // Format to match UI types
-      return dbProducts.map(p => ({
-        id: p.id,
-        display_name: p.display_name,
-        brand: p.brand,
-        quantity: p.quantity,
-        unit: p.unit,
-        canonical_image_url: p.canonical_image_url,
-        listings: p.listings.map(l => ({
-          id: l.id,
-          platform: {
-            name: l.platform.name,
-            slug: l.platform.slug
-          },
-          currentPrice: Number(l.currentPrice),
-          originalPrice: l.originalPrice ? Number(l.originalPrice) : null,
-          discount: l.discount ? Number(l.discount) : null,
-          inStock: l.inStock,
-          deliveryTime: l.deliveryTime,
-          productUrl: l.productUrl,
-          lastScrapedAt: l.lastScrapedAt
-        }))
-      }));
+      console.log('[DIAGNOSTIC] D. Before fetchFromDB() (SearchEngine call)');
+      const response = await this.searchEngine.execute(query, filters, pagination);
+      console.log('[DIAGNOSTIC] E. After fetchFromDB() (SearchEngine call)');
+      return response;
     } catch (error: any) {
       console.error('[DIAGNOSTIC EXCEPTION in fetchFromDB]', {
         name: error.name,
         message: error.message,
-        code: error.code,
-        meta: error.meta,
-        stack: error.stack,
-        file: 'src/scraper/index.ts',
-        line: 'fetchFromDB prisma.product.findMany'
+        stack: error.stack
       });
       throw error;
     }

@@ -1,0 +1,253 @@
+[
+  {
+    "Confidence": 0.8085586666666666,
+    "Decision": "REVIEW",
+    "Explanation": {
+      "candidate_generation": {
+        "brand": "PASS",
+        "category": "PASS",
+        "quantity": "PASS",
+        "unit": "PASS"
+      },
+      "guardrails": {
+        "variant": "PASS",
+        "flavour": "PASS",
+        "packaging": "PASS"
+      },
+      "semantic": {
+        "token": 0.8333333333333334,
+        "trigram": 0.783784,
+        "embedding": 0
+      },
+      "decision": "REVIEW"
+    },
+    "Source": {
+      "id": "cmrmj01e70081zkf0ds19knie",
+      "name": "Maggi Chilly Chow Cuppa Noodles",
+      "brand": "Maggi",
+      "quantity": 70,
+      "unit": "g",
+      "category": "OTHER",
+      "image": "https://cdn.grofers.com/da/cms-assets/cms/product/rc-upload-1775533735848-320.png",
+      "listings": [
+        {
+          "platform": "Blinkit",
+          "url": "https://blinkit.com/prn/product/prid/355335",
+          "price": "50"
+        }
+      ]
+    },
+    "Target": {
+      "id": "cmrmizxcs0053zkf0tn9clof7",
+      "name": "Chilly Chow Cuppa Instant Noodles",
+      "brand": "Maggi",
+      "quantity": 70,
+      "unit": "g",
+      "category": "GROCERY",
+      "image": "https://www.bigbasket.com/media/uploads/p/s/1229983_2-maggi-cuppa-noodles-chilli-chow.jpg",
+      "listings": [
+        {
+          "platform": "BigBasket",
+          "url": "https://www.bigbasket.com/pd/1229983/maggi-cuppa-noodles-chilli-chow-2-x-70-g/",
+          "price": "100"
+        }
+      ]
+    }
+  },
+  {
+    "Confidence": 0.8157895,
+    "Decision": "REVIEW",
+    "Explanation": {
+      "candidate_generation": {
+        "brand": "PASS",
+        "category": "PASS",
+        "quantity": "PASS",
+        "unit": "PASS"
+      },
+      "guardrails": {
+        "variant": "PASS",
+        "flavour": "PASS",
+        "packaging": "PASS"
+      },
+      "semantic": {
+        "token": 1,
+        "trigram": 0.631579,
+        "embedding": 0
+      },
+      "decision": "REVIEW"
+    },
+    "Source": {
+      "id": "cmrnm9nd8001urcf0v0r500ah",
+      "name": "India Gate Feast Rozana Basmati Rice (Medium Grain)",
+      "brand": "India Gate",
+      "quantity": 5,
+      "unit": "kg",
+      "category": "OTHER",
+      "image": "https://cdn.grofers.com/da/cms-assets/cms/product/541a9151-720d-4193-b373-f98990e242c2.png",
+      "listings": [
+        {
+          "platform": "Blinkit",
+          "url": "https://blinkit.com/prn/product/prid/10967",
+          "price": "465"
+        }
+      ]
+    },
+    "Target": {
+      "id": "cmrnm9m4w0012rcf08wl4i25r",
+      "name": "India Gate Everyday Basmati Rice (Medium Grain)",
+      "brand": "India Gate",
+      "quantity": 5,
+      "unit": "kg",
+      "category": "OTHER",
+      "image": "https://cdn.grofers.com/da/cms-assets/cms/product/rc-upload-1776915617603-104.png",
+      "listings": [
+        {
+          "platform": "Blinkit",
+          "url": "https://blinkit.com/prn/product/prid/497459",
+          "price": "374"
+        }
+      ]
+    }
+  },
+  {
+    "Confidence": 0.8157895,
+    "Decision": "REVIEW",
+    "Explanation": {
+      "candidate_generation": {
+        "brand": "PASS",
+        "category": "PASS",
+        "quantity": "PASS",
+        "unit": "PASS"
+      },
+      "guardrails": {
+        "variant": "PASS",
+        "flavour": "PASS",
+        "packaging": "PASS"
+      },
+      "semantic": {
+        "token": 1,
+        "trigram": 0.631579,
+        "embedding": 0
+      },
+      "decision": "REVIEW"
+    },
+    "Source": {
+      "id": "cmrnm9nd9001vrcf0wv6k8jg6",
+      "name": "India Gate Feast Rozana Basmati Rice (Medium Grain)",
+      "brand": "India Gate",
+      "quantity": 1,
+      "unit": "kg",
+      "category": "OTHER",
+      "image": "https://cdn.grofers.com/da/cms-assets/cms/product/875ffd87-6efe-4b2d-9619-63f596ea7837.png",
+      "listings": [
+        {
+          "platform": "Blinkit",
+          "url": "https://blinkit.com/prn/product/prid/36183",
+          "price": "110"
+        }
+      ]
+    },
+    "Target": {
+      "id": "cmrnm9ncu001trcf01lvi29bi",
+      "name": "India Gate Everyday Basmati Rice (Medium Grain)",
+      "brand": "India Gate",
+      "quantity": 1,
+      "unit": "kg",
+      "category": "OTHER",
+      "image": "https://cdn.grofers.com/da/cms-assets/cms/product/rc-upload-1776915617603-116.png",
+      "listings": [
+        {
+          "platform": "Blinkit",
+          "url": "https://blinkit.com/prn/product/prid/545228",
+          "price": "95"
+        }
+      ]
+    }
+  },
+  {
+    "Confidence": 0.7166668333333333,
+    "Decision": "REVIEW",
+    "Explanation": {
+      "candidate_generation": {
+        "brand": "PASS",
+        "category": "PASS",
+        "quantity": "PASS",
+        "unit": "PASS"
+      },
+      "guardrails": {
+        "variant": "PASS",
+        "flavour": "PASS",
+        "packaging": "PASS"
+      },
+      "semantic": {
+        "token": 0.6666666666666666,
+        "trigram": 0.766667,
+        "embedding": 0
+      },
+      "decision": "REVIEW"
+    },
+    "Source": {
+      "id": "cmrnma02x0072rcf0nt4n2qcp",
+      "name": "Rice/Akki - Ponni, Raw",
+      "brand": "bb Popular",
+      "quantity": 1,
+      "unit": "kg",
+      "category": "GROCERY",
+      "image": "https://www.bigbasket.com/media/uploads/p/s/60000040_1-bb-popular-rice-ponni-raw.jpg",
+      "listings": []
+    },
+    "Target": {
+      "id": "cmrnm9z4f006ircf0yfmjabg8",
+      "name": "Red Raw Rice/Akki",
+      "brand": "bb Popular",
+      "quantity": 1,
+      "unit": "kg",
+      "category": "GROCERY",
+      "image": "https://www.bigbasket.com/media/uploads/p/s/40203149_1-bb-popular-red-raw-rice.jpg",
+      "listings": []
+    }
+  },
+  {
+    "Confidence": 0.7696428571428571,
+    "Decision": "REVIEW",
+    "Explanation": {
+      "candidate_generation": {
+        "brand": "PASS",
+        "category": "PASS",
+        "quantity": "PASS",
+        "unit": "PASS"
+      },
+      "guardrails": {
+        "variant": "PASS",
+        "flavour": "PASS",
+        "packaging": "PASS"
+      },
+      "semantic": {
+        "token": 0.7142857142857143,
+        "trigram": 0.825,
+        "embedding": 0
+      },
+      "decision": "REVIEW"
+    },
+    "Source": {
+      "id": "cmrnma09r0076rcf0u8ff109u",
+      "name": "New Rice/Akki - Sona Masoori",
+      "brand": "bb Popular",
+      "quantity": 5,
+      "unit": "kg",
+      "category": "GROCERY",
+      "image": "https://www.bigbasket.com/media/uploads/p/s/40128964_2-bb-popular-new-rice-sona-masoori.jpg",
+      "listings": []
+    },
+    "Target": {
+      "id": "cmrnm9z38006hrcf0m176oidt",
+      "name": "Rice/Akki - Raw, Sona Masoori",
+      "brand": "bb Popular",
+      "quantity": 5,
+      "unit": "kg",
+      "category": "GROCERY",
+      "image": "https://www.bigbasket.com/media/uploads/p/s/10000410_16-bb-popular-rice-raw-sona-masoori.jpg",
+      "listings": []
+    }
+  }
+]

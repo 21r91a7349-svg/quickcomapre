@@ -4,8 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
 } from 'recharts';
-import { TrendingDown, TrendingUp, AlertCircle, Calendar } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { AlertCircle, Calendar } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
@@ -46,140 +45,88 @@ export function PriceHistoryChart({ productId }: PriceHistoryChartProps) {
 
   if (error) {
     return (
-      <Card className="border-destructive/50 bg-destructive/5">
-        <CardContent className="flex items-center justify-center p-6 text-destructive">
-          <AlertCircle className="w-5 h-5 mr-2" />
-          <p>Unable to load price history</p>
-        </CardContent>
-      </Card>
+      <div className="flex items-center justify-center p-6 text-destructive bg-destructive/5 rounded-xl border border-destructive/20">
+        <AlertCircle className="w-5 h-5 mr-2" />
+        <p>Unable to load price history</p>
+      </div>
     );
   }
 
   return (
-    <Card className="w-full">
-      <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between pb-2 space-y-4 sm:space-y-0">
-        <div>
-          <CardTitle className="text-xl font-bold flex items-center gap-2">
-            Price History
-          </CardTitle>
-          <CardDescription>Compare historical pricing across platforms</CardDescription>
-        </div>
-        
+    <div className="w-full flex flex-col h-full">
+      <div className="flex justify-end mb-4">
         <Tabs defaultValue="30" value={days} onValueChange={setDays} className="w-full sm:w-auto">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="7">7 Days</TabsTrigger>
-            <TabsTrigger value="30">30 Days</TabsTrigger>
-            <TabsTrigger value="0">All Time</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3 h-8">
+            <TabsTrigger value="7" className="text-xs">7 Days</TabsTrigger>
+            <TabsTrigger value="30" className="text-xs">30 Days</TabsTrigger>
+            <TabsTrigger value="0" className="text-xs">All Time</TabsTrigger>
           </TabsList>
         </Tabs>
-      </CardHeader>
+      </div>
       
-      <CardContent>
-        {loading ? (
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-               <Skeleton className="h-20 w-full rounded-xl" />
-               <Skeleton className="h-20 w-full rounded-xl" />
-               <Skeleton className="h-20 w-full rounded-xl" />
-               <Skeleton className="h-20 w-full rounded-xl" />
-            </div>
-            <Skeleton className="w-full h-[300px] rounded-xl" />
-          </div>
-        ) : !data?.chartData || data.chartData.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-[300px] text-muted-foreground border border-dashed rounded-xl bg-muted/20">
-            <Calendar className="w-10 h-10 mb-3 opacity-20" />
-            <p>Not enough historical data available yet.</p>
-          </div>
-        ) : (
-          <div className="animate-in fade-in duration-500">
-            {/* Stats Row */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              <div className="bg-muted/30 p-4 rounded-xl border border-border/50">
-                <p className="text-xs font-medium text-muted-foreground mb-1">Lowest Price</p>
-                <p className="text-2xl font-bold text-green-600 dark:text-green-500">₹{data.stats.lowest?.toFixed(2)}</p>
-              </div>
-              <div className="bg-muted/30 p-4 rounded-xl border border-border/50">
-                <p className="text-xs font-medium text-muted-foreground mb-1">Highest Price</p>
-                <p className="text-2xl font-bold text-destructive">₹{data.stats.highest?.toFixed(2)}</p>
-              </div>
-              <div className="bg-muted/30 p-4 rounded-xl border border-border/50">
-                <p className="text-xs font-medium text-muted-foreground mb-1">Average Price</p>
-                <p className="text-2xl font-bold">₹{data.stats.average?.toFixed(2)}</p>
-              </div>
-              <div className="bg-muted/30 p-4 rounded-xl border border-border/50 relative overflow-hidden">
-                <div className="absolute -right-4 -top-4 opacity-5">
-                  <TrendingDown className="w-24 h-24" />
-                </div>
-                <p className="text-xs font-medium text-muted-foreground mb-1">Max Savings</p>
-                <div className="flex items-center gap-2">
-                  <p className="text-2xl font-bold text-primary">₹{data.stats.currentSavings?.toFixed(2) || '0.00'}</p>
-                  {data.stats.currentSavings > 0 && (
-                    <Badge variant="outline" className="bg-green-500/10 text-green-600 border-green-200">
-                      <TrendingDown className="w-3 h-3 mr-1" /> Save
-                    </Badge>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Chart */}
-            <div className="w-full h-[350px] mt-4">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={data.chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" opacity={0.5} />
-                  <XAxis 
-                    dataKey="date" 
-                    tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
-                    tickMargin={10}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <YAxis 
-                    domain={['dataMin - 5', 'dataMax + 5']}
-                    tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
-                    tickFormatter={(value) => `₹${value}`}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: 'hsl(var(--background))', 
-                      borderColor: 'hsl(var(--border))',
-                      borderRadius: '12px',
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-                    }}
-                    itemStyle={{ fontSize: '14px', fontWeight: 500 }}
-                    labelStyle={{ fontSize: '12px', color: 'hsl(var(--muted-foreground))', marginBottom: '8px' }}
-                  />
-                  <Legend iconType="circle" wrapperStyle={{ fontSize: '14px', paddingTop: '10px' }} />
-                  
-                  {data.platforms.map((platform: string) => (
-                    <Line
-                      key={platform}
-                      type="monotone"
-                      dataKey={platform}
-                      stroke={PLATFORM_COLORS[platform] || 'hsl(var(--primary))'}
-                      strokeWidth={3}
-                      dot={{ r: 4, strokeWidth: 2 }}
-                      activeDot={{ r: 6, strokeWidth: 0 }}
-                      connectNulls
-                    />
-                  ))}
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
-}
-
-// Quick fallback Badge component to avoid creating another file if it's missing in some scope
-function Badge({ children, variant = 'default', className = '' }: any) {
-  return (
-    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${className}`}>
-      {children}
-    </span>
+      {loading ? (
+        <div className="w-full h-full min-h-[200px] flex items-end gap-2 pb-4">
+          <Skeleton className="w-full h-1/3 rounded-md" />
+          <Skeleton className="w-full h-2/3 rounded-md" />
+          <Skeleton className="w-full h-1/2 rounded-md" />
+          <Skeleton className="w-full h-3/4 rounded-md" />
+        </div>
+      ) : !data?.chartData || data.chartData.length === 0 ? (
+        <div className="flex flex-col items-center justify-center h-full min-h-[200px] text-muted-foreground border border-dashed rounded-xl bg-muted/20">
+          <Calendar className="w-8 h-8 mb-3 opacity-20" />
+          <p className="text-sm">Not enough historical data available yet.</p>
+        </div>
+      ) : (
+        <div className="flex-1 min-h-[200px] w-full animate-in fade-in duration-500">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={data.chartData} margin={{ top: 5, right: 5, left: -25, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" opacity={0.4} />
+              <XAxis 
+                dataKey="date" 
+                tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }}
+                tickMargin={8}
+                axisLine={false}
+                tickLine={false}
+                minTickGap={20}
+              />
+              <YAxis 
+                domain={['dataMin', 'dataMax']}
+                tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }}
+                tickFormatter={(value) => `₹${value}`}
+                axisLine={false}
+                tickLine={false}
+                width={50}
+              />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: 'rgba(255, 255, 255, 0.8)', 
+                  backdropFilter: 'blur(8px)',
+                  borderColor: 'hsl(var(--border))',
+                  borderRadius: '12px',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+                  padding: '12px'
+                }}
+                itemStyle={{ fontSize: '13px', fontWeight: 600, padding: '2px 0' }}
+                labelStyle={{ fontSize: '11px', color: 'hsl(var(--muted-foreground))', marginBottom: '8px', fontWeight: 500, textTransform: 'uppercase' }}
+                cursor={{ stroke: 'hsl(var(--muted-foreground))', strokeWidth: 1, strokeDasharray: '4 4' }}
+              />
+              {data.platforms.map((platform: string) => (
+                <Line
+                  key={platform}
+                  type="monotone"
+                  dataKey={platform}
+                  stroke={PLATFORM_COLORS[platform] || 'hsl(var(--primary))'}
+                  strokeWidth={2.5}
+                  dot={false}
+                  activeDot={{ r: 5, strokeWidth: 0 }}
+                  connectNulls
+                  animationDuration={1500}
+                />
+              ))}
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+    </div>
   );
 }

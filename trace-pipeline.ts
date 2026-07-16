@@ -10,7 +10,7 @@ async function trace() {
   const duration = Date.now() - start;
   
   console.log(`\nPipeline Execution Time: ${duration}ms`);
-  console.log(`Total Products Returned: ${results.length}`);
+  console.log(`Total Products Returned: ${results.results.length}`);
 }
 
 trace().catch(console.error);

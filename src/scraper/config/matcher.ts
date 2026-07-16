@@ -8,7 +8,13 @@ export const MATCHER_CONFIG = {
     'bb royal': 'bigbasket royal',
     'bb popular': 'bigbasket popular',
     'amulya': 'amul',
-    'maggie': 'maggi'
+    'maggie': 'maggi',
+    'maggi spicy': 'maggi',
+    'coca cola imported': 'coca cola',
+    'coca-cola imported': 'coca cola',
+    'nestlé': 'nestle',
+    'amul taaza': 'amul',
+    'mother dairy india': 'mother dairy'
   },
 
   // Words that provide no semantic distinction for our matching engine
