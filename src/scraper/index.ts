@@ -1,13 +1,18 @@
 import { ZeptoAdapter } from './adapters/zepto';
 import { BlinkitAdapter } from './adapters/blinkit';
+import { BigBasketAdapter } from './adapters/bigbasket';
 import { DatabaseSync, prisma } from './core/db';
 import { ScraperLogger } from './core/logger';
 import { scraperConfig } from './config';
 
 export class ScraperOrchestrator {
-  private adapters = [new ZeptoAdapter(), new BlinkitAdapter()];
+  private adapters = [new ZeptoAdapter(), new BlinkitAdapter(), new BigBasketAdapter()];
   private dbSync = new DatabaseSync();
   private logger = new ScraperLogger('Orchestrator');
+
+  constructor() {
+    this.logger.info(`Registered adapters: \n${this.adapters.map(a => `✓ ${a.getPlatform().name}`).join('\n')}`);
+  }
 
   /**
    * API Handler: Implements Freshness Waterfall caching logic
