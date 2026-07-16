@@ -88,8 +88,8 @@ async function runRepair() {
                 );
 
                 let embeddingScore = 0;
-                let vec1 = product.embedding as any;
-                let vec2 = candidate.embedding as any;
+                let vec1 = (product as any).embedding as any;
+                let vec2 = (candidate as any).embedding as any;
 
                 if (!vec1) {
                     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
