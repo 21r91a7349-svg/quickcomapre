@@ -77,7 +77,7 @@ export function SearchInput() {
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setIsOpen(true)}
           onKeyDown={handleKeyDown}
-          placeholder="Search projects, AI insights, or specific stocks..."
+          placeholder="Search for milk, onions, rice across Zepto, Blinkit..."
           className="w-full bg-transparent border-none focus:ring-0 text-foreground placeholder:text-muted-foreground/60 py-4 outline-none text-lg"
           role="combobox"
           aria-expanded={isOpen}
