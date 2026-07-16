@@ -52,5 +52,8 @@
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
+  },
+  "overrides": {
+    "picomatch": "4.0.5"
   }
 }
