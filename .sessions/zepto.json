@@ -1,0 +1,77 @@
+{
+  "cookies": [
+    {
+      "name": "session_id",
+      "value": "81c5fb84-2cf3-4a38-ae55-b65157ed97ba",
+      "domain": "www.zepto.com",
+      "path": "/",
+      "expires": 1784132137.387934,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "session_count",
+      "value": "1",
+      "domain": "www.zepto.com",
+      "path": "/",
+      "expires": 1815666337.388804,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "device_id",
+      "value": "db1a2c05-fc80-4e6d-a848-5356b12a0957",
+      "domain": "www.zepto.com",
+      "path": "/",
+      "expires": 1815666337.388869,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "marketplace",
+      "value": "SUPER_SAVER",
+      "domain": "www.zepto.com",
+      "path": "/",
+      "expires": 1815666403.981557,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "csrfSecret",
+      "value": "kY22PBYOY34",
+      "domain": "www.zepto.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "XSRF-TOKEN",
+      "value": "QRMBDHyCRBOIsod9ZDR7J%3AxDXD2LgVxyHLFMOTq0OR3nCg0RY.OcXRj1gc%2Fffc5bX9ctByiPsTz7VQC1Lfv9bPVdaZ8Dw",
+      "domain": "www.zepto.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "serviceability",
+      "value": "%7B%22timeSaved%22%3A1784130404013%7D",
+      "domain": "www.zepto.com",
+      "path": "/",
+      "expires": 1815666403.981702,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "localStorage": {},
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+  "createdAt": 1784130404794
+}

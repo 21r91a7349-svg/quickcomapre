@@ -1,0 +1,15 @@
+{
+  "cookies": [
+    {
+      "name": "test_cookie",
+      "value": "123",
+      "domain": "example.com",
+      "path": "/"
+    }
+  ],
+  "localStorage": {
+    "test_key": "456"
+  },
+  "userAgent": "test_agent",
+  "createdAt": 1784129158330
+}

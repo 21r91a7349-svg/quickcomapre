@@ -1,0 +1,134 @@
+{
+  "chartData": [
+    {
+      "date": "Jun 17",
+      "BigBasket": 380.5476668159201
+    },
+    {
+      "date": "Jun 18",
+      "BigBasket": 345.9205227795434
+    },
+    {
+      "date": "Jun 19",
+      "BigBasket": 334.5953604411259
+    },
+    {
+      "date": "Jun 20",
+      "BigBasket": 395.5813333805088
+    },
+    {
+      "date": "Jun 21",
+      "BigBasket": 392.9639789307614
+    },
+    {
+      "date": "Jun 22",
+      "BigBasket": 390.3056502114414
+    },
+    {
+      "date": "Jun 23",
+      "BigBasket": 326.5761979748308
+    },
+    {
+      "date": "Jun 24",
+      "BigBasket": 332.8654992660885
+    },
+    {
+      "date": "Jun 25",
+      "BigBasket": 348.6554418217638
+    },
+    {
+      "date": "Jun 26",
+      "BigBasket": 344.8667291614385
+    },
+    {
+      "date": "Jun 27",
+      "BigBasket": 328.0449408844219
+    },
+    {
+      "date": "Jun 28",
+      "BigBasket": 333.2307252447696
+    },
+    {
+      "date": "Jun 29",
+      "BigBasket": 370.8033741133281
+    },
+    {
+      "date": "Jun 30",
+      "BigBasket": 330.0424599978473
+    },
+    {
+      "date": "Jul 01",
+      "BigBasket": 353.433291693286
+    },
+    {
+      "date": "Jul 02",
+      "BigBasket": 343.2350991356787
+    },
+    {
+      "date": "Jul 03",
+      "BigBasket": 383.1434109731746
+    },
+    {
+      "date": "Jul 04",
+      "BigBasket": 333.082549443322
+    },
+    {
+      "date": "Jul 05",
+      "BigBasket": 379.3428225361026
+    },
+    {
+      "date": "Jul 06",
+      "BigBasket": 338.4639199779873
+    },
+    {
+      "date": "Jul 07",
+      "BigBasket": 360.6183432165166
+    },
+    {
+      "date": "Jul 08",
+      "BigBasket": 359.6388400765598
+    },
+    {
+      "date": "Jul 09",
+      "BigBasket": 362.7165816715467
+    },
+    {
+      "date": "Jul 10",
+      "BigBasket": 377.3515749493779
+    },
+    {
+      "date": "Jul 11",
+      "BigBasket": 348.4028653270735
+    },
+    {
+      "date": "Jul 12",
+      "BigBasket": 385.9409728461422
+    },
+    {
+      "date": "Jul 13",
+      "BigBasket": 365.972605038135
+    },
+    {
+      "date": "Jul 14",
+      "BigBasket": 324.4359741960733
+    },
+    {
+      "date": "Jul 15",
+      "BigBasket": 364.0322722308103
+    },
+    {
+      "date": "Jul 16",
+      "BigBasket": 360
+    }
+  ],
+  "platforms": [
+    "BigBasket"
+  ],
+  "stats": {
+    "lowest": 324.4359741960733,
+    "highest": 395.5813333805088,
+    "average": 356.49,
+    "currentBestPrice": 360,
+    "currentSavings": 35.58
+  }
+}
