@@ -1,0 +1,118 @@
+[
+  {
+    "source": {
+      "id": "cmrnm9nd8001urcf0v0r500ah",
+      "name": "India Gate Feast Rozana Basmati Rice (Medium Grain)"
+    },
+    "target": {
+      "id": "cmrnm9m4w0012rcf08wl4i25r",
+      "name": "India Gate Everyday Basmati Rice (Medium Grain)"
+    },
+    "explanation": {
+      "candidate_generation": {
+        "brand": "PASS",
+        "category": "PASS",
+        "quantity": "PASS",
+        "unit": "PASS"
+      },
+      "guardrails": {
+        "variant": "PASS",
+        "flavour": "PASS",
+        "packaging": "PASS"
+      },
+      "semantic": {
+        "token": 1,
+        "trigram": 0.631579,
+        "embedding": 0
+      },
+      "decision": "REVIEW"
+    }
+  },
+  {
+    "source": {
+      "id": "cmrnm9nd9001vrcf0wv6k8jg6",
+      "name": "India Gate Feast Rozana Basmati Rice (Medium Grain)"
+    },
+    "target": {
+      "id": "cmrnm9ncu001trcf01lvi29bi",
+      "name": "India Gate Everyday Basmati Rice (Medium Grain)"
+    },
+    "explanation": {
+      "candidate_generation": {
+        "brand": "PASS",
+        "category": "PASS",
+        "quantity": "PASS",
+        "unit": "PASS"
+      },
+      "guardrails": {
+        "variant": "PASS",
+        "flavour": "PASS",
+        "packaging": "PASS"
+      },
+      "semantic": {
+        "token": 1,
+        "trigram": 0.631579,
+        "embedding": 0
+      },
+      "decision": "REVIEW"
+    }
+  },
+  {
+    "source": {
+      "id": "cmrnma02x0072rcf0nt4n2qcp",
+      "name": "Rice/Akki - Ponni, Raw"
+    },
+    "target": {
+      "id": "cmrnm9z4f006ircf0yfmjabg8",
+      "name": "Red Raw Rice/Akki"
+    },
+    "explanation": {
+      "candidate_generation": {
+        "brand": "PASS",
+        "category": "PASS",
+        "quantity": "PASS",
+        "unit": "PASS"
+      },
+      "guardrails": {
+        "variant": "PASS",
+        "flavour": "PASS",
+        "packaging": "PASS"
+      },
+      "semantic": {
+        "token": 0.6666666666666666,
+        "trigram": 0.766667,
+        "embedding": 0
+      },
+      "decision": "REVIEW"
+    }
+  },
+  {
+    "source": {
+      "id": "cmrnma09r0076rcf0u8ff109u",
+      "name": "New Rice/Akki - Sona Masoori"
+    },
+    "target": {
+      "id": "cmrnm9z38006hrcf0m176oidt",
+      "name": "Rice/Akki - Raw, Sona Masoori"
+    },
+    "explanation": {
+      "candidate_generation": {
+        "brand": "PASS",
+        "category": "PASS",
+        "quantity": "PASS",
+        "unit": "PASS"
+      },
+      "guardrails": {
+        "variant": "PASS",
+        "flavour": "PASS",
+        "packaging": "PASS"
+      },
+      "semantic": {
+        "token": 0.7142857142857143,
+        "trigram": 0.825,
+        "embedding": 0
+      },
+      "decision": "REVIEW"
+    }
+  }
+]
