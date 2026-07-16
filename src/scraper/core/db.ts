@@ -99,8 +99,8 @@ export class DatabaseSync {
         })
       );
 
-      // Execute Listing Upserts in a single network round-trip via Transaction
-      const listings = await prisma.$transaction(listingUpserts);
+      // Execute Listing Upserts concurrently to avoid sequential transaction latency
+      const listings = await Promise.all(listingUpserts);
 
       // Execute PriceHistory Inserts in a single batch insert
       await prisma.priceHistory.createMany({
