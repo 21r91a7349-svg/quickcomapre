@@ -19,12 +19,23 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    console.log('[DIAGNOSTIC] A. Route entered for query:', query);
+    
+    console.log('[DIAGNOSTIC] B. Before orchestrator.getSearchResults()');
     // 2. Fetch from Orchestrator (DB cache -> Live Scrape -> DB return)
     const results = await scraperOrchestrator.getSearchResults(query);
+    console.log('[DIAGNOSTIC] C. After orchestrator.getSearchResults()');
 
+    console.log('[DIAGNOSTIC] H. Before returning response');
     return NextResponse.json({ results });
   } catch (error: any) {
-    console.error('Search API error:', error);
-    return NextResponse.json({ error: 'Internal server error during search' }, { status: 500 });
+    console.error('[DIAGNOSTIC EXCEPTION in route.ts]', {
+      name: error.name,
+      message: error.message,
+      stack: error.stack,
+      file: 'src/app/api/search/route.ts',
+      line: 'orchestrator call'
+    });
+    return NextResponse.json({ error: 'Internal server error during search', details: error.message }, { status: 500 });
   }
 }

@@ -72,10 +72,12 @@ export class ScraperOrchestrator {
 
     for (const adapter of this.adapters) {
       try {
+        console.log('[DIAGNOSTIC] F. Before scraper execution for adapter');
         const platformMeta = adapter.getPlatform();
         this.logger.info(`Orchestrating search on ${platformMeta.name} for: ${query}`);
         
         const results = await adapter.search(query);
+        console.log('[DIAGNOSTIC] G. After scraper execution for adapter:', platformMeta?.name);
         if (results.length > 0) {
           await this.dbSync.syncScraperResults(adapter, results);
           totalSynced += results.length;
@@ -89,10 +91,22 @@ export class ScraperOrchestrator {
           products_found: results.length
         });
       } catch (error: any) {
+        console.error('[DIAGNOSTIC EXCEPTION in searchAndSyncAll adapter loop]', {
+          name: error.name,
+          message: error.message,
+          stack: error.stack,
+          file: 'src/scraper/index.ts',
+          line: 'adapter.search',
+          adapter: adapter?.constructor?.name
+        });
+        
+        let platformSlug = 'unknown';
+        try { platformSlug = adapter.getPlatform().slug; } catch(e) {}
+        
         this.logger.error(`Adapter failed`, { error: error.message }, {
           execution_time_ms: Date.now() - startTime,
           success: false,
-          platform: adapter.getPlatform().slug,
+          platform: platformSlug,
           query,
           failure_reason: error.message
         });
@@ -103,46 +117,61 @@ export class ScraperOrchestrator {
   }
 
   private async fetchFromDB(query: string) {
-    // Simple ILIKE search using Prisma
-    const dbProducts = await prisma.product.findMany({
-      where: {
-        OR: [
-          { display_name: { contains: query, mode: 'insensitive' } },
-          { brand: { contains: query, mode: 'insensitive' } }
-        ]
-      },
-      include: {
-        listings: {
-          include: {
-            platform: true
+    try {
+      console.log('[DIAGNOSTIC] D. Before fetchFromDB() (Prisma call)');
+      // Simple ILIKE search using Prisma
+      const dbProducts = await prisma.product.findMany({
+        where: {
+          OR: [
+            { display_name: { contains: query, mode: 'insensitive' } },
+            { brand: { contains: query, mode: 'insensitive' } }
+          ]
+        },
+        include: {
+          listings: {
+            include: {
+              platform: true
+            }
           }
         }
-      }
-    });
+      });
+      console.log('[DIAGNOSTIC] E. After fetchFromDB() (Prisma call)');
 
-    // Format to match UI types
-    return dbProducts.map(p => ({
-      id: p.id,
-      display_name: p.display_name,
-      brand: p.brand,
-      quantity: p.quantity,
-      unit: p.unit,
-      canonical_image_url: p.canonical_image_url,
-      listings: p.listings.map(l => ({
-        id: l.id,
-        platform: {
-          name: l.platform.name,
-          slug: l.platform.slug
-        },
-        currentPrice: Number(l.currentPrice),
-        originalPrice: l.originalPrice ? Number(l.originalPrice) : null,
-        discount: l.discount ? Number(l.discount) : null,
-        inStock: l.inStock,
-        deliveryTime: l.deliveryTime,
-        productUrl: l.productUrl,
-        lastScrapedAt: l.lastScrapedAt
-      }))
-    }));
+      // Format to match UI types
+      return dbProducts.map(p => ({
+        id: p.id,
+        display_name: p.display_name,
+        brand: p.brand,
+        quantity: p.quantity,
+        unit: p.unit,
+        canonical_image_url: p.canonical_image_url,
+        listings: p.listings.map(l => ({
+          id: l.id,
+          platform: {
+            name: l.platform.name,
+            slug: l.platform.slug
+          },
+          currentPrice: Number(l.currentPrice),
+          originalPrice: l.originalPrice ? Number(l.originalPrice) : null,
+          discount: l.discount ? Number(l.discount) : null,
+          inStock: l.inStock,
+          deliveryTime: l.deliveryTime,
+          productUrl: l.productUrl,
+          lastScrapedAt: l.lastScrapedAt
+        }))
+      }));
+    } catch (error: any) {
+      console.error('[DIAGNOSTIC EXCEPTION in fetchFromDB]', {
+        name: error.name,
+        message: error.message,
+        code: error.code,
+        meta: error.meta,
+        stack: error.stack,
+        file: 'src/scraper/index.ts',
+        line: 'fetchFromDB prisma.product.findMany'
+      });
+      throw error;
+    }
   }
 }
 

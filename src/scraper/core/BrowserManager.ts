@@ -22,14 +22,33 @@ export class BrowserManager {
    */
   private async initBrowser() {
     if (!this.browser) {
-      this.logger.info('Launching new Playwright browser instance');
-      const proxy = this.proxyManager.getProxy();
-      
-      this.browser = await chromium.launch({
-        headless: scraperConfig.browser.headless,
-        args: scraperConfig.browser.args,
-        proxy: proxy ? { server: proxy.server, username: proxy.username, password: proxy.password } : undefined
-      });
+      try {
+        console.log('[DIAGNOSTIC] Playwright initBrowser launching');
+        this.logger.info('Launching new Playwright browser instance');
+        const proxy = this.proxyManager.getProxy();
+        
+        try {
+          console.log('[DIAGNOSTIC] Chromium executablePath:', chromium.executablePath());
+          console.log('[DIAGNOSTIC] Playwright version:', require('playwright/package.json').version);
+        } catch (e) {}
+
+        this.browser = await chromium.launch({
+          headless: scraperConfig.browser.headless,
+          args: scraperConfig.browser.args,
+          proxy: proxy ? { server: proxy.server, username: proxy.username, password: proxy.password } : undefined
+        });
+        
+        console.log('[DIAGNOSTIC] Playwright browser launch success');
+      } catch (error: any) {
+        console.error('[DIAGNOSTIC EXCEPTION in initBrowser]', {
+          name: error.name,
+          message: error.message,
+          stack: error.stack,
+          file: 'src/scraper/core/BrowserManager.ts',
+          line: 'chromium.launch'
+        });
+        throw error;
+      }
     }
     return this.browser;
   }
