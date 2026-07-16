@@ -26,9 +26,15 @@ export const scraperConfig = {
     stealthEnabled: true,
     args: [
       '--disable-blink-features=AutomationControlled',
-      '--disable-web-security',
       '--no-sandbox',
-      '--disable-setuid-sandbox'
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',   // Use /tmp instead of /dev/shm (important in containers)
+      '--disable-gpu',              // No GPU in server environment
+      '--no-zygote',                // Saves ~50MB RAM by skipping zygote process
+      '--disable-extensions',       // No extensions needed
+      '--disable-background-networking',
+      '--disable-default-apps',
+      '--mute-audio',
     ],
   },
   
