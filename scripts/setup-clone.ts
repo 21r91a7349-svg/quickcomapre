@@ -3,13 +3,13 @@ import { PrismaClient } from '@prisma/client';
 
 async function setupClone() {
     // 1. Prisma client for public schema
-    const prismaProd = new PrismaClient({
+    const prismaProd: any = new PrismaClient({
         datasourceUrl: process.env.DATABASE_URL
     } as any);
 
     // 2. Prisma client for test schema
     const testUrl = process.env.DATABASE_URL + '?schema=test_clone';
-    const prismaTest = new PrismaClient({
+    const prismaTest: any = new PrismaClient({
         datasourceUrl: testUrl
     } as any);
 
