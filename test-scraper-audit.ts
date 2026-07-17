@@ -18,7 +18,7 @@ async function testAdapters() {
     console.log('Products scraped:', bResults.length > 0 ? 'Yes' : 'No');
     console.log('Count:', bResults.length);
     console.log('Example products:', bResults.slice(0, 3).map(p => p.display_name));
-  } catch (e) {
+  } catch (e: any) {
     console.log('Blinkit Failed:', e.message);
   }
 
@@ -30,7 +30,7 @@ async function testAdapters() {
     console.log('Products scraped:', bbResults.length > 0 ? 'Yes' : 'No');
     console.log('Count:', bbResults.length);
     console.log('Example products:', bbResults.slice(0, 3).map(p => p.display_name));
-  } catch (e) {
+  } catch (e: any) {
     console.log('BigBasket Failed:', e.message);
   }
 
@@ -42,7 +42,7 @@ async function testAdapters() {
     console.log('Products scraped:', zResults.length > 0 ? 'Yes' : 'No');
     console.log('Count:', zResults.length);
     console.log('Example products:', zResults.slice(0, 3).map(p => p.display_name));
-  } catch (e) {
+  } catch (e: any) {
     console.log('Zepto Failed:', e.message);
   }
 }

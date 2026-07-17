@@ -148,15 +148,15 @@ export class ProductMatcher {
   private async enqueueAsyncEmbedding(productId: string, str: string) {
     if (!process.env.GEMINI_API_KEY) return;
     ai.models.embedContent({ model: 'gemini-embedding-2', contents: str, config: { outputDimensionality: 768 } })
-      .then(res => {
+      .then((res: any) => {
         const vec = res.embeddings?.[0]?.values;
         if (vec) {
           const vectorStr = `[${vec.join(',')}]`;
           prisma.$executeRawUnsafe(`UPDATE "Product" SET embedding = '${vectorStr}'::vector WHERE id = '${productId}'`)
-            .catch(e => logger.error(`Failed to save background embedding`, { error: e.message }));
+            .catch((e: any) => logger.error(`Failed to save background embedding`, { error: e.message }));
         }
       })
-      .catch(e => logger.error(`Failed to generate background embedding`, { error: e.message }));
+      .catch((e: any) => logger.error(`Failed to generate background embedding`, { error: e.message }));
   }
 
   async matchOrCreateProduct(item: NormalizedProduct, platformId: string): Promise<Product> {

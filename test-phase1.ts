@@ -42,10 +42,10 @@ async function verifyPhase1() {
     
     // 5. Verify API Response (using the returned results as API simulation)
     console.log('\n--- 5. API Response Sample ---');
-    if (results.length > 0) {
-      console.log(`Returned ${results.length} products. First 5:`);
-      results.slice(0, 5).forEach(p => {
-        const platforms = p.listings.map(l => l.platform.name).join(', ');
+    if (results.results && results.results.length > 0) {
+      console.log(`Returned ${results.results.length} products. First 5:`);
+      results.results.slice(0, 5).forEach((p: any) => {
+        const platforms = p.listings.map((l: any) => l.platform.name).join(', ');
         console.log(`- ${p.display_name} | Listings: ${p.listings.length} (${platforms})`);
       });
     } else {
