@@ -17,7 +17,8 @@ async function simulateSearch() {
         console.log(`\nSearching for: ${q}...`);
         
         // This hits the DB and scrapers (live search)
-        const results = await orchestrator.getSearchResults(q);
+        const response: any = await orchestrator.getSearchResults(q);
+        const results = response.results || response;
         const beforeCount = results.length;
         
         // In-memory merge simulation
