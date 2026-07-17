@@ -5,13 +5,13 @@ async function setupClone() {
     // 1. Prisma client for public schema
     const prismaProd = new PrismaClient({
         datasourceUrl: process.env.DATABASE_URL
-    });
+    } as any);
 
     // 2. Prisma client for test schema
     const testUrl = process.env.DATABASE_URL + '?schema=test_clone';
     const prismaTest = new PrismaClient({
         datasourceUrl: testUrl
-    });
+    } as any);
 
     console.log('Copying data from public to test_clone...');
     
