@@ -38,10 +38,10 @@ export class BrowserManager {
         }
 
         try {
-          this.browser = await chromium.launch(launchOptions);
+          this.browser = (await chromium.launch(launchOptions)) as any;
         } catch (extraErr: any) {
           this.logger.warn(`playwright-extra launch failed: ${extraErr.message}. Falling back to standard Playwright.`);
-          this.browser = await vanillaChromium.launch(launchOptions);
+          this.browser = (await vanillaChromium.launch(launchOptions)) as any;
         }
         
         console.log('[DIAGNOSTIC] Playwright browser launch success');
