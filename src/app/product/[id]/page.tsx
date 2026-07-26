@@ -120,7 +120,7 @@ export default async function ComparePage({ params }: { params: Promise<{ id: st
           <div className="flex gap-2 mt-2">
             {bestListing ? (
               <a 
-                href={bestListing.productUrl} 
+                href={bestListing.productUrl ?? undefined} 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className={buttonVariants({ size: 'lg', className: 'flex-1 font-semibold text-md shadow-sm' })}
