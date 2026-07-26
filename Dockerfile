@@ -5,7 +5,7 @@ WORKDIR /app
 # Step 1: Install dependencies & Playwright Chromium
 FROM base AS deps
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm ci || npm install
 
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 RUN npx playwright install --with-deps chromium
