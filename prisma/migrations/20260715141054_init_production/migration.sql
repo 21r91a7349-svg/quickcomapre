@@ -1,3 +1,8 @@
+-- CreateExtensions
+CREATE EXTENSION IF NOT EXISTS "pg_trgm";
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "vector";
+
 -- CreateEnum
 CREATE TYPE "USER_ROLE" AS ENUM ('USER', 'ADMIN');
 

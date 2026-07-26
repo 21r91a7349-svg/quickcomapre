@@ -79,12 +79,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN groupadd --system --gid 1001 nodejs && \
     useradd --system --uid 1001 --gid nodejs nextjs
 
-# Copy Playwright browser & Prisma generated client
+# Copy Playwright browser & Prisma generated client & Prisma CLI
 COPY --from=deps /ms-playwright /ms-playwright
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
+COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
 COPY --from=builder /app/prisma ./prisma
 
 # Leverage Next.js output traces

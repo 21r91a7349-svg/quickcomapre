@@ -1,10 +1,16 @@
 #!/bin/sh
 set -e
 
-echo "Applying database migrations..."
-if [ -n "$DATABASE_URL" ]; then
-  npx prisma migrate deploy || echo "Prisma migrate deploy completed with notice."
+echo "[Docker Entrypoint] Verifying database configuration..."
+
+if [ -z "$DATABASE_URL" ]; then
+  echo "[Docker Entrypoint] FATAL: DATABASE_URL environment variable is missing."
+  exit 1
 fi
 
-echo "Starting QuickCompare production application..."
+echo "[Docker Entrypoint] Executing Prisma database migrations (fail-fast)..."
+npx prisma migrate deploy
+
+echo "[Docker Entrypoint] Database migrations successfully applied."
+echo "[Docker Entrypoint] Starting QuickCompare production server..."
 exec "$@"

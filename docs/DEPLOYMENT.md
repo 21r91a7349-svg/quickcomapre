@@ -1,65 +1,65 @@
-# Deployment Guide
+# QuickCompare Production Deployment & Configuration Guide
 
-QuickCompare is configured for seamless deployment on PaaS providers like Render or Vercel, utilizing Docker for consistency and PgBouncer for database connection pooling.
+QuickCompare is configured for automated, secure deployment on PaaS providers (such as Render or AWS ECS), utilizing Docker for deterministic containerization, Prisma for database migrations, and PgBouncer for PostgreSQL connection pooling.
 
-## 1. Prerequisites
+---
 
-1. **GitHub Repository**: Your code must be pushed to a GitHub repository.
-2. **Supabase (or Neon) Account**: For PostgreSQL hosting.
-3. **Google Cloud Console**: For OAuth Credentials.
-4. **Render Account**: For Application Hosting.
+## 1. Environment Variable Reference
 
-## 2. Environment Variables
+Sensitive credentials and environment configurations MUST be supplied directly via Render Environment Variables or production container secrets. **Never commit sensitive credentials to source control.**
 
-Your production environment requires the following variables:
+### Required Production Environment Variables:
 
-```bash
-# Database
-DATABASE_URL="postgresql://postgres:YOUR_PASSWORD@db.YOUR_PROJECT.supabase.co:6543/postgres?pgbouncer=true"
+| Variable | Sensitive? | Purpose / Description | Example / Instructions |
+|----------|------------|-----------------------|------------------------|
+| `DATABASE_URL` | **Yes** | PostgreSQL connection string with extensions enabled (`pg_trgm`, `uuid-ossp`, `vector`). | `postgresql://postgres:PASSWORD@db.xxx.supabase.co:5432/postgres` |
+| `AUTH_SECRET` | **Yes** | Cryptographic secret for signing session JWT tokens. | Generated via `openssl rand -base64 32` |
+| `AUTH_GOOGLE_ID` | **Yes** | Google OAuth Client ID (supplied via deployment environment). | `xxxx.apps.googleusercontent.com` |
+| `AUTH_GOOGLE_SECRET` | **Yes** | Google OAuth Client Secret (supplied via deployment environment). | `GOCSPX-xxxx...` |
+| `GEMINI_API_KEY` | **Yes** | Gemini API Key for semantic product matching embeddings. | `AIzaSy...` |
+| `NODE_ENV` | No | Node execution mode (`production`). | `production` |
+| `PORT` | No | Container HTTP port. | `3000` |
+| `HOSTNAME` | No | Network bind host. | `0.0.0.0` |
 
-# Auth.js Config
-NEXTAUTH_URL="https://your-app-name.onrender.com"
-NEXTAUTH_TRUST_HOST="true"
-AUTH_SECRET="your_generated_random_secret" # Use `openssl rand -base64 32`
+---
 
-# Google OAuth
-AUTH_GOOGLE_ID="your_google_client_id"
-AUTH_GOOGLE_SECRET="your_google_client_secret"
+## 2. Automated Database Migration Workflow
 
-# LLM Config
-GEMINI_API_KEY="your_gemini_key"
-```
+QuickCompare uses a strict **fail-fast, non-destructive forward migration strategy**:
 
-## 3. Database Setup (Supabase)
+1. **PostgreSQL Extensions**:
+   All required extensions (`pg_trgm`, `uuid-ossp`, `vector`) are declared in the committed migration history (`prisma/migrations/20260715141054_init_production/migration.sql`) using `CREATE EXTENSION IF NOT EXISTS`. Fresh databases initialize required extensions automatically without manual SQL execution.
 
-1. Create a new project in Supabase.
-2. Navigate to Database -> Connection Pooling.
-3. Enable connection pooling and note the **Port 6543** connection string.
-4. From your local terminal, initialize the schema:
+2. **Automated Migration Execution**:
+   Container startup automatically invokes `./docker-entrypoint.sh`, executing:
    ```bash
-   # Run against the standard port 5432 for migrations
-   DATABASE_URL="..." npx prisma db push
+   npx prisma migrate deploy
    ```
+   If database migrations fail or `DATABASE_URL` is missing, the container exits with code `1` immediately (**fail-fast**), preventing broken deployments.
 
-## 4. Render Setup
+3. **Schema Validation Health Check**:
+   The `/api/health` endpoint queries database connectivity and verifies essential tables (`Platform`, `Product`, `Listing`). The container is only declared healthy after migrations have successfully executed and tables are accessible.
 
-We use Render's native Docker support.
+---
 
-1. Create a new **Web Service**.
-2. Connect your GitHub repository.
-3. Set the Runtime to **Docker**.
-4. Set the Root Directory to the project root.
-5. In **Environment Variables**, paste all the keys from Step 2.
-6. Click **Create Web Service**. 
-7. Enable **Auto-Deploy** to deploy automatically when pushing to the `main` branch.
+## 3. Render Deployment Procedure
 
-## 5. Health Monitoring
+1. **Create Web Service**:
+   Connect your GitHub repository to Render and create a new **Web Service**. Select **Docker** as the runtime.
 
-The application exposes `/api/health` which ping tests the database and returns a `200 OK` status. You can configure Render or UptimeKuma to poll this endpoint.
+2. **Configure Environment Variables**:
+   In the Render dashboard, navigate to **Environment** and add the required variables listed in Section 1 (`DATABASE_URL`, `AUTH_SECRET`, `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`, `GEMINI_API_KEY`).
 
-## 6. Production Checklist
+3. **Google OAuth Callback URL**:
+   Ensure your Google Cloud Console Authorized Redirect URIs include:
+   `https://<your-render-app>.onrender.com/api/auth/callback/google`
 
-- [ ] `DATABASE_URL` uses PgBouncer (Port 6543).
-- [ ] `NEXTAUTH_URL` exactly matches the final production domain.
-- [ ] Google OAuth Credentials have the correct production callback URL (`https://your-domain.com/api/auth/callback/google`).
-- [ ] Environment variables are securely stored and not committed to source control.
+4. **Health Check Endpoint**:
+   Render will automatically poll `/api/health` every 30 seconds. The service will transition to Healthy only after database schema verification succeeds.
+
+---
+
+## 4. Docker Security Architecture
+
+- **Non-Root Runtime User**: The production container executes under user `nextjs` (`UID 1001`, `GID 1001`).
+- **Permissions**: Playwright binaries `/ms-playwright` and standalone application files `/app` are owned by `nextjs:nodejs`.
