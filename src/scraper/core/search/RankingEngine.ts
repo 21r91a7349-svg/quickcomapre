@@ -2,60 +2,105 @@ import { Intent } from './IntentClassifier';
 import { RankedProduct, SearchCandidate } from './types';
 import { SEARCH_CONFIG } from '../../config/searchRanking';
 
+export interface RankExplanation {
+  categoryBonus: number;       // +500 for matching intent category
+  categoryPenalty: number;     // -400 for category/type mismatch (e.g. chips on "onion")
+  exactMatchBonus: number;    // +300 for exact product title match
+  brandBonus: number;         // +150 for matching brand
+  coverageBonus: number;      // +120 for multi-platform availability
+  textSimilarityScore: number;// Base trigram/FTS similarity score
+  finalScore: number;         // Total calculated score
+}
+
 export class RankingEngine {
     /**
-     * Ranks a pre-filtered list of candidates based on a 4-stage pipeline.
+     * Ranks a pre-filtered list of candidates based on a multi-tier explainable scoring pipeline.
      */
     rank(normalizedQuery: string, intent: Intent, candidates: SearchCandidate[]): RankedProduct[] {
         const startTime = Date.now();
+        const q = normalizedQuery.trim().toLowerCase();
         
         const ranked = candidates.map(product => {
             const { matchType, trigramScore, ftsScore } = product.retrievalMeta;
-            
-            // Stage 1: Base Relevance
-            let baseRelevance = 0;
-            if (matchType === 'exact') baseRelevance = SEARCH_CONFIG.weights.exactMatchBoost;
-            else if (matchType === 'prefix') baseRelevance = SEARCH_CONFIG.weights.prefixMatchBoost;
-            else if (matchType === 'brand') baseRelevance = SEARCH_CONFIG.weights.exactMatchBoost; // Exact brand match
-            else if (matchType === 'fts') baseRelevance = SEARCH_CONFIG.weights.ftsBaseBoost + (ftsScore * 10);
-            else if (matchType === 'trigram') baseRelevance = SEARCH_CONFIG.weights.trigramBaseBoost * trigramScore;
+            const normalizedName = (product.normalized_name || '').toLowerCase();
+            const displayName = (product.display_name || '').toLowerCase();
+            const category = (product.category || 'OTHER').toUpperCase();
+            const brand = (product.brand || '').toLowerCase();
 
-            // Stage 2: Intent Boost
-            let intentBoost = 0;
-            const normalizedName = product.normalized_name;
-            if (intent.type === 'category' && product.category === 'OTHER' && normalizedName.includes(intent.matchedTerm)) {
-                intentBoost = SEARCH_CONFIG.weights.categoryIntentBoost;
-            } else if (intent.type === 'brand' && product.brand?.toLowerCase() === intent.matchedTerm) {
-                intentBoost = SEARCH_CONFIG.weights.brandIntentBoost;
+            // 1. Text Similarity Score
+            let textSimilarityScore = 0;
+            if (matchType === 'exact') textSimilarityScore = SEARCH_CONFIG.weights.exactMatchBoost;
+            else if (matchType === 'prefix') textSimilarityScore = SEARCH_CONFIG.weights.prefixMatchBoost;
+            else if (matchType === 'brand') textSimilarityScore = SEARCH_CONFIG.weights.exactMatchBoost;
+            else if (matchType === 'fts') textSimilarityScore = SEARCH_CONFIG.weights.ftsBaseBoost + (ftsScore * 10);
+            else if (matchType === 'trigram') textSimilarityScore = SEARCH_CONFIG.weights.trigramBaseBoost * trigramScore;
+
+            // 2. Exact Title Match Bonus
+            let exactMatchBonus = 0;
+            if (normalizedName === q || displayName === q) {
+                exactMatchBonus = 300;
             }
 
-            // Stage 3: Business Rules
-            let businessRules = 0;
-            const isStaple = SEARCH_CONFIG.staples.some(s => normalizedName.includes(s));
-            if (isStaple) businessRules += SEARCH_CONFIG.weights.stapleBoost;
+            // 3. Category Intent Bonus vs Penalty
+            let categoryBonus = 0;
+            let categoryPenalty = 0;
 
-            const isNiche = SEARCH_CONFIG.nicheKeywords.some(n => normalizedName.includes(n) && !normalizedQuery.includes(n));
-            if (isNiche) businessRules += SEARCH_CONFIG.weights.nichePenalty;
+            if (intent.targetCategory === 'FRESH_PRODUCE') {
+                if (normalizedName.includes('onion') && !normalizedName.includes('chip') && !normalizedName.includes('wafer') && !normalizedName.includes('namkeen')) {
+                    categoryBonus = 500;
+                } else if (normalizedName.includes('chip') || normalizedName.includes('wafer') || normalizedName.includes('snack')) {
+                    categoryPenalty = -400;
+                }
+            } else if (intent.targetCategory === 'DAIRY') {
+                if ((normalizedName.includes('milk') || normalizedName.includes('dahi') || normalizedName.includes('paneer')) && !normalizedName.includes('chocolate') && !normalizedName.includes('cadbury')) {
+                    categoryBonus = 500;
+                } else if (normalizedName.includes('chocolate') || normalizedName.includes('cadbury')) {
+                    categoryPenalty = -400;
+                }
+            } else if (intent.targetCategory === 'CONFECTIONERY') {
+                if (normalizedName.includes('cadbury') || normalizedName.includes('chocolate') || normalizedName.includes('dairy milk')) {
+                    categoryBonus = 500;
+                }
+            } else if (intent.targetCategory === 'BEVERAGES') {
+                if (category === 'BEVERAGES' || normalizedName.includes('juice') || normalizedName.includes('coke') || normalizedName.includes('drink')) {
+                    categoryBonus = 500;
+                }
+            } else if (intent.targetCategory === 'SNACKS') {
+                if (category === 'SNACKS' || normalizedName.includes('lays') || normalizedName.includes('chip')) {
+                    categoryBonus = 500;
+                }
+            }
 
-            // Stage 4: Popularity (Tie breakers)
+            // 4. Brand Match Bonus
+            let brandBonus = 0;
+            if (brand && intent.matchedTerm && (brand.includes(intent.matchedTerm) || intent.matchedTerm.includes(brand))) {
+                brandBonus = 150;
+            }
+
+            // 5. Platform Coverage Bonus
             const uniquePlatforms = new Set(product.listings.map(l => l.platform.name)).size;
-            const popularityScore = uniquePlatforms * SEARCH_CONFIG.weights.listingCountBoost;
-            const totalPopularity = popularityScore + SEARCH_CONFIG.weights.searchFrequencyBoost + SEARCH_CONFIG.weights.ctrBoost + SEARCH_CONFIG.weights.conversionBoost;
+            const coverageBonus = uniquePlatforms * 60; // 60 per platform
 
-            // Final Score
-            const totalScore = baseRelevance + intentBoost + businessRules + totalPopularity;
+            // Final Total Score calculation
+            const finalScore = textSimilarityScore + exactMatchBonus + categoryBonus + categoryPenalty + brandBonus + coverageBonus;
+
+            const rankExplanation: RankExplanation = {
+                categoryBonus,
+                categoryPenalty,
+                exactMatchBonus,
+                brandBonus,
+                coverageBonus,
+                textSimilarityScore: Math.round(textSimilarityScore),
+                finalScore: Math.round(finalScore)
+            };
 
             return {
                 ...product,
-                searchScore: totalScore,
+                searchScore: finalScore,
                 intentMatch: intent.type,
                 _debug: {
                     match_type: matchType,
-                    base_relevance: baseRelevance,
-                    intent_boost: intentBoost,
-                    business_rules: businessRules,
-                    popularity_score: totalPopularity,
-                    total_score: totalScore
+                    rankExplanation
                 }
             } as RankedProduct;
         });

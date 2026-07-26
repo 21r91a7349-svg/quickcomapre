@@ -4,6 +4,7 @@ export const scraperConfig = {
     pageLoad: 30000,
     apiFetch: 15000,
     elementWait: 10000,
+    adapterTimeoutMs: process.env.SCRAPER_ADAPTER_TIMEOUT_MS ? parseInt(process.env.SCRAPER_ADAPTER_TIMEOUT_MS, 10) : 4000,
   },
   
   // Retries & Queue
@@ -17,7 +18,7 @@ export const scraperConfig = {
 
   // Caching Windows (ms)
   cache: {
-    freshnessWindowMs: 30 * 60 * 1000, // 30 minutes
+    freshnessWindowMs: (process.env.SEARCH_CACHE_TTL_MINUTES ? parseInt(process.env.SEARCH_CACHE_TTL_MINUTES, 10) : 30) * 60 * 1000,
   },
 
   // Browser Settings

@@ -15,17 +15,7 @@
       "value": "1",
       "domain": ".bigbasket.com",
       "path": "/",
-      "expires": 1819622301.398935,
-      "httpOnly": false,
-      "secure": true,
-      "sameSite": "Lax"
-    },
-    {
-      "name": "_bb_ftvid",
-      "value": "\"MTM1ODgwOTAzMTc5NzAwNTAzOA==|Yw0MTkMCBk4vEFxVUFJRBhBSVF8DTVhQWhB3LjE=\"",
-      "domain": ".bigbasket.com",
-      "path": "/",
-      "expires": 1785065745.66,
+      "expires": 1819631841.370463,
       "httpOnly": false,
       "secure": true,
       "sameSite": "Lax"
@@ -75,7 +65,7 @@
       "value": "\"Mjk2NTE4NTMwNA==\"",
       "domain": ".bigbasket.com",
       "path": "/",
-      "expires": 1819622301.398994,
+      "expires": 1819631841.370524,
       "httpOnly": false,
       "secure": true,
       "sameSite": "Lax"
@@ -95,7 +85,7 @@
       "value": "6",
       "domain": ".bigbasket.com",
       "path": "/",
-      "expires": 1816598301.397,
+      "expires": 1816607841.368,
       "httpOnly": false,
       "secure": true,
       "sameSite": "Lax"
@@ -132,10 +122,10 @@
     },
     {
       "name": "ts",
-      "value": "\"2026-07-26 16:08:05.509\"",
+      "value": "\"2026-07-26 18:47:05.543\"",
       "domain": ".bigbasket.com",
       "path": "/",
-      "expires": 1816598301.397,
+      "expires": 1816607841.368,
       "httpOnly": false,
       "secure": true,
       "sameSite": "Lax"
@@ -143,5 +133,5 @@
   ],
   "localStorage": {},
   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
-  "createdAt": 1785062301423
+  "createdAt": 1785071841499
 }

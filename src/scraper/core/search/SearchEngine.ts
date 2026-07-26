@@ -25,9 +25,9 @@ export class SearchEngine {
         const intent = this.classifier.classify(query);
 
         // 1. Retrieve Candidate Pool (Adaptive Retrieval based on Intent)
-        let candidates = await this.retriever.getCandidates(query, intent);
+        let candidates = await this.retriever.getCandidates(query, intent as any);
 
-        // 2. Extract Facets BEFORE filtering (so UI shows all available options for this query)
+        // 2. Extract Facets BEFORE filtering
         const facets = this.filterEngine.extractFacets(candidates);
 
         // 3. Filter Candidates
@@ -46,12 +46,10 @@ export class SearchEngine {
 
         const paginatedResults = ranked.slice(startIndex, endIndex);
 
-        const isDebugMode = process.env.NODE_ENV !== 'production' || filters?.debug;
+        const supportedPlatformsList = ['Blinkit', 'BigBasket', 'Zepto', 'Swiggy Instamart'];
+        const supportedPlatformCount = supportedPlatformsList.length;
 
         console.log(`[SearchEngine] Pipeline complete in ${Date.now() - startTime}ms. Returned ${paginatedResults.length}/${total} results.`);
-
-        const supportedPlatformsList = ['Blinkit', 'BigBasket'];
-        const supportedPlatformCount = supportedPlatformsList.length;
 
         return {
             total,
@@ -76,7 +74,7 @@ export class SearchEngine {
                   }))
                 };
 
-                const res = {
+                return {
                     id: p.id,
                     display_name: p.display_name,
                     brand: p.brand,
@@ -86,6 +84,7 @@ export class SearchEngine {
                     searchScore: p.searchScore,
                     intentMatch: p.intentMatch,
                     coverage,
+                    rankExplanation: p._debug?.rankExplanation || null,
                     listings: p.listings.map(l => ({
                         id: l.id,
                         platform: { name: l.platform.name, slug: l.platform.slug },
@@ -98,10 +97,6 @@ export class SearchEngine {
                         lastScrapedAt: l.lastScrapedAt
                     }))
                 };
-                if (isDebugMode) {
-                    (res as any)._debug = p._debug;
-                }
-                return res as any;
             })
         };
     }

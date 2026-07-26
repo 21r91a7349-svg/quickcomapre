@@ -23,6 +23,27 @@ export interface PlatformMeta {
   slug: string;
 }
 
+export type PlatformStatusCode = 
+  | 'SUCCESS'
+  | 'ZERO_RESULTS'
+  | 'TIMEOUT'
+  | 'PARSER_FAILED'
+  | 'NETWORK_FAILED'
+  | 'BLOCKED_BY_ANTI_BOT'
+  | 'DISABLED'
+  | 'NOT_IMPLEMENTED';
+
+export interface PlatformExecutionResult {
+  platform: string;
+  slug: string;
+  status: PlatformStatusCode;
+  productsScraped: number;
+  productsNormalized: number;
+  latencyMs: number;
+  error?: string;
+  details?: any;
+}
+
 export interface ScraperAdapter {
   /**
    * Return metadata about this platform.
