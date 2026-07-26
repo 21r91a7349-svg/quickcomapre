@@ -34,7 +34,7 @@ export default async function ComparePage({ params }: { params: Promise<{ id: st
   const uiProduct = {
     ...product,
     quantity: product.quantity ? Number(product.quantity) : null,
-    listings: product.listings.map(l => ({
+    listings: product.listings.map((l: any) => ({
       ...l,
       currentPrice: Number(l.currentPrice),
       originalPrice: l.originalPrice ? Number(l.originalPrice) : null,
@@ -54,7 +54,7 @@ export default async function ComparePage({ params }: { params: Promise<{ id: st
 
   const bestListing = sortedListings.find(l => l.inStock);
   const bestPrice = bestListing?.currentPrice;
-  const mrp = uiProduct.listings.find(l => l.originalPrice)?.originalPrice || null;
+  const mrp = uiProduct.listings.find((l: any) => l.originalPrice)?.originalPrice || null;
 
   let savingsAmt = null;
   let savingsPct = null;

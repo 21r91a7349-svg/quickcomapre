@@ -21,13 +21,13 @@ async function runBenchmark() {
   let totalListingsCount = 0;
   let coverageSum = 0;
 
-  products.forEach(p => {
+  products.forEach((p: any) => {
     const listingCount = p.listings.length;
     totalListingsCount += listingCount;
     if (listingCount > 1) multiListingCount++;
     else singleListingCount++;
 
-    const uniquePlatforms = new Set(p.listings.map(l => l.platform.slug)).size;
+    const uniquePlatforms = new Set(p.listings.map((l: any) => l.platform.slug)).size;
     coverageSum += uniquePlatforms / activePlatformCount;
   });
 
