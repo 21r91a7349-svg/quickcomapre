@@ -9,7 +9,7 @@ if [ -z "$DATABASE_URL" ]; then
 fi
 
 echo "[Docker Entrypoint] Executing Prisma database migrations (fail-fast)..."
-npx prisma migrate deploy
+./node_modules/.bin/prisma migrate deploy || npx prisma migrate deploy
 
 echo "[Docker Entrypoint] Database migrations successfully applied."
 echo "[Docker Entrypoint] Starting QuickCompare production server..."
