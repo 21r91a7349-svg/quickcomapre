@@ -15,7 +15,7 @@ export class BrowserManager {
    * Initializes the browser if it hasn't been started yet.
    * This is designed to be a singleton per scraper worker.
    */
-  private async initBrowser() {
+  private async initBrowser(): Promise<Browser> {
     if (!this.browser) {
       try {
         console.log('[DIAGNOSTIC] Playwright initBrowser launching');
@@ -33,7 +33,6 @@ export class BrowserManager {
         const proxy = this.proxyManager.getProxy();
         
         try {
-          console.log('[DIAGNOSTIC] Chromium executablePath:', chromium.executablePath());
           console.log('[DIAGNOSTIC] Playwright version:', require('playwright/package.json').version);
         } catch (e) {}
 
@@ -54,6 +53,9 @@ export class BrowserManager {
         });
         throw error;
       }
+    }
+    if (!this.browser) {
+      throw new Error('Failed to initialize browser');
     }
     return this.browser;
   }
