@@ -14,8 +14,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   events: {
     // Migrate anonymous Price Alerts to the authenticated user on sign in
-    async signIn({ user }) {
-      if (user.email && user.id) {
+    async signIn({ user }: { user: any }) {
+      if (user?.email && user?.id) {
         try {
           await prisma.priceAlert.updateMany({
             where: { 
@@ -33,11 +33,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }
   },
   callbacks: {
-    session({ session, user }) {
-      if (session.user) {
+    session({ session, user }: { session: any, user: any }) {
+      if (session?.user && user?.id) {
         session.user.id = user.id;
-        // Include role if available
-        // @ts-ignore - typing fix for user role mapping
         session.user.role = user.role || 'USER'; 
       }
       return session;

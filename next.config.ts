@@ -7,6 +7,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  transpilePackages: ['recharts', '@reduxjs/toolkit'],
   images: {
     remotePatterns: [
       {

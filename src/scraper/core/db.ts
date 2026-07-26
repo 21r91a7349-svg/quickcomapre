@@ -11,8 +11,11 @@ import pMap from 'p-map';
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
 const createPrismaClient = () => {
-  const url = process.env.DATABASE_URL || 'postgres://mock:mock@localhost:5432/mock';
-  const pool = new Pool({ connectionString: url });
+  const url = process.env.DATABASE_URL;
+  if (!url) {
+    console.warn('[Prisma] DATABASE_URL missing from environment. Fail-fast active.');
+  }
+  const pool = new Pool({ connectionString: url || 'postgres://localhost:5432/missing_db' });
   const adapter = new PrismaPg(pool);
   return new PrismaClient({ adapter });
 };
@@ -25,8 +28,8 @@ export class DatabaseSync {
   private matcher = new ProductMatcher();
 
   /**
-   * Syncs scraped products into the database.
-   * Creates or updates Platform, Products, and Listings.
+   * Syncs scraped products into the database transactionally.
+   * Creates or updates Platform, Products, and Listings atomically.
    */
   async syncScraperResults(adapter: ScraperAdapter, results: NormalizedProduct[]) {
     const platformMeta = adapter.getPlatform();
@@ -63,62 +66,55 @@ export class DatabaseSync {
 
     const successfulMatches = matchedProducts.filter((res): res is { item: NormalizedProduct, product: any } => res !== null);
 
-    // STAGE 3: Batch database writes
-    // Build Listing Upserts
+    // STAGE 3: Transactional database writes
     if (successfulMatches.length > 0) {
-      const listingUpserts = successfulMatches.map(({ item, product }) => 
-        prisma.listing.upsert({
-          where: {
-            platformId_platformProductId: {
+      await prisma.$transaction(async (tx) => {
+        const listingUpserts = successfulMatches.map(({ item, product }) => 
+          tx.listing.upsert({
+            where: {
+              platformId_platformProductId: {
+                platformId: platform.id,
+                platformProductId: item.platformProductId
+              }
+            },
+            update: {
+              productId: product.id,
+              currentPrice: item.currentPrice,
+              originalPrice: item.originalPrice,
+              discount: item.discount,
+              inStock: item.inStock,
+              deliveryTime: item.deliveryTime,
+              imageUrl: item.canonical_image_url,
+              productUrl: item.productUrl,
+              lastScrapedAt: new Date()
+            },
+            create: {
+              productId: product.id,
               platformId: platform.id,
-              platformProductId: item.platformProductId
+              platformProductId: item.platformProductId,
+              currentPrice: item.currentPrice,
+              originalPrice: item.originalPrice,
+              discount: item.discount,
+              inStock: item.inStock,
+              deliveryTime: item.deliveryTime,
+              imageUrl: item.canonical_image_url,
+              productUrl: item.productUrl,
             }
-          },
-          update: {
-            productId: product.id,
-            currentPrice: item.currentPrice,
-            originalPrice: item.originalPrice,
-            discount: item.discount,
-            inStock: item.inStock,
-            deliveryTime: item.deliveryTime,
-            imageUrl: item.canonical_image_url,
-            productUrl: item.productUrl,
-            lastScrapedAt: new Date()
-          },
-          create: {
-            productId: product.id,
-            platformId: platform.id,
-            platformProductId: item.platformProductId,
-            currentPrice: item.currentPrice,
-            originalPrice: item.originalPrice,
-            discount: item.discount,
-            inStock: item.inStock,
-            deliveryTime: item.deliveryTime,
-            imageUrl: item.canonical_image_url,
-            productUrl: item.productUrl,
-          }
-        })
-      );
+          })
+        );
 
-      // Execute Listing Upserts concurrently to avoid sequential transaction latency
-      const listings = await Promise.all(listingUpserts);
+        const listings = await Promise.all(listingUpserts);
 
-      // Execute PriceHistory Inserts in a single batch insert
-      await prisma.priceHistory.createMany({
-        data: listings.map((listing, i) => ({
-          listingId: listing.id,
-          price: successfulMatches[i].item.currentPrice
-        }))
-      });
-
-      // Execute canonical consolidation routine to eliminate duplicate products
-      await this.matcher.consolidateDuplicateCanonicals().catch(err => {
-        this.logger.error('Canonical consolidation failed', { error: err.message });
+        await tx.priceHistory.createMany({
+          data: listings.map((listing, i) => ({
+            listingId: listing.id,
+            price: successfulMatches[i].item.currentPrice
+          }))
+        });
       });
 
       // STAGE 5: Background Alert Evaluation
       const uniqueProductIds = [...new Set(successfulMatches.map(sm => sm.product.id))];
-      // Fire and forget alert evaluation (runs concurrently)
       uniqueProductIds.forEach(productId => {
         evaluateAlertsForProduct(productId).catch(err => {
           this.logger.error(`Alert evaluation failed for ${productId}`, { error: err.message });
@@ -128,6 +124,6 @@ export class DatabaseSync {
       syncedCount = successfulMatches.length;
     }
 
-    this.logger.info(`Successfully synced ${syncedCount}/${results.length} products to DB`);
+    this.logger.info(`Successfully synced ${syncedCount}/${results.length} products transactionally to DB`);
   }
 }

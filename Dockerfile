@@ -4,8 +4,8 @@ WORKDIR /app
 
 # Step 1: Install dependencies & Playwright Chromium
 FROM base AS deps
-COPY package.json package-lock.json* ./
-RUN npm install --legacy-peer-deps
+COPY package.json package-lock.json ./
+RUN npm ci
 
 # Install Playwright's Chromium browser and Linux system dependencies
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
@@ -22,7 +22,6 @@ COPY . .
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_OPTIONS="--max-old-space-size=1536"
-ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/quickcompare?sslmode=disable"
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 
 # Generate Prisma Client
@@ -76,9 +75,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxrender1 \
     libxss1 \
     libxtst6 \
+    curl \
     wget \
     xdg-utils \
-    || true && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy Playwright browser & Prisma generated client
 COPY --from=deps /ms-playwright /ms-playwright
@@ -90,6 +90,9 @@ COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 # Leverage Next.js output traces
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD curl -f http://localhost:3000/api/health || exit 1
 
 EXPOSE 3000
 

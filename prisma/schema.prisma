@@ -219,6 +219,7 @@ enum MatchStrategy {
   DETERMINISTIC
   FUZZY
   AI
+  EVIDENCE_SCORE
 }
 
 enum ReviewStatus {

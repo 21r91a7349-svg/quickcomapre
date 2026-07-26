@@ -50,7 +50,7 @@ export class SearchEngine {
 
         console.log(`[SearchEngine] Pipeline complete in ${Date.now() - startTime}ms. Returned ${paginatedResults.length}/${total} results.`);
 
-        const supportedPlatformsList = ['Blinkit', 'BigBasket', 'Zepto'];
+        const supportedPlatformsList = ['Blinkit', 'BigBasket'];
         const supportedPlatformCount = supportedPlatformsList.length;
 
         return {

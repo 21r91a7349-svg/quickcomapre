@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { User } from "next-auth";
+import type { User } from "next-auth";
 import { login, logout } from "@/app/actions/auth";
 import { LogOut, User as UserIcon, Settings, Bell } from "lucide-react";
 
@@ -28,7 +28,7 @@ export function AccountMenu({ user }: AccountMenuProps) {
   }
 
   const initials = user.name
-    ? user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()
+    ? user.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()
     : user.email?.substring(0, 2).toUpperCase() || 'U';
 
   return (
