@@ -15,7 +15,7 @@
       "value": "1",
       "domain": ".bigbasket.com",
       "path": "/",
-      "expires": 1819620008.00546,
+      "expires": 1819622301.398935,
       "httpOnly": false,
       "secure": true,
       "sameSite": "Lax"
@@ -75,7 +75,7 @@
       "value": "\"Mjk2NTE4NTMwNA==\"",
       "domain": ".bigbasket.com",
       "path": "/",
-      "expires": 1819620008.005559,
+      "expires": 1819622301.398994,
       "httpOnly": false,
       "secure": true,
       "sameSite": "Lax"
@@ -95,7 +95,7 @@
       "value": "6",
       "domain": ".bigbasket.com",
       "path": "/",
-      "expires": 1816596008.003,
+      "expires": 1816598301.397,
       "httpOnly": false,
       "secure": true,
       "sameSite": "Lax"
@@ -132,10 +132,10 @@
     },
     {
       "name": "ts",
-      "value": "\"2026-07-26 15:29:52.123\"",
+      "value": "\"2026-07-26 16:08:05.509\"",
       "domain": ".bigbasket.com",
       "path": "/",
-      "expires": 1816596008.003,
+      "expires": 1816598301.397,
       "httpOnly": false,
       "secure": true,
       "sameSite": "Lax"
@@ -143,5 +143,5 @@
   ],
   "localStorage": {},
   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
-  "createdAt": 1785060008025
+  "createdAt": 1785062301423
 }

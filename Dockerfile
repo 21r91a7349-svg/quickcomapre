@@ -7,7 +7,6 @@ FROM base AS deps
 COPY package.json package-lock.json ./
 RUN npm ci
 
-# Install Playwright's Chromium browser and Linux system dependencies
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 RUN npx playwright install --with-deps chromium
 
@@ -18,16 +17,12 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /ms-playwright /ms-playwright
 COPY . .
 
-# Set environment variables for build phase
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_OPTIONS="--max-old-space-size=1536"
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 
-# Generate Prisma Client
 RUN npx prisma generate
-
-# Build Next.js application
 RUN npm run build
 
 # Step 3: Production runner image
@@ -80,21 +75,33 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     xdg-utils \
     && rm -rf /var/lib/apt/lists/*
 
+# Create non-root runtime user & group
+RUN groupadd --system --gid 1001 nodejs && \
+    useradd --system --uid 1001 --gid nodejs nextjs
+
 # Copy Playwright browser & Prisma generated client
 COPY --from=deps /ms-playwright /ms-playwright
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
+COPY --from=builder /app/prisma ./prisma
 
 # Leverage Next.js output traces
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --chown=nextjs:nodejs docker-entrypoint.sh ./
+
+RUN chmod +x docker-entrypoint.sh && \
+    chown -R nextjs:nodejs /app && \
+    chmod -R 777 /ms-playwright
+
+USER nextjs
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD curl -f http://localhost:3000/api/health || exit 1
 
 EXPOSE 3000
 
+ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["node", "server.js"]
-
