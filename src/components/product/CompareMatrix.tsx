@@ -3,7 +3,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Clock, Zap, AlertCircle, CheckCircle2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { formatDistanceToNow } from 'date-fns';
@@ -118,11 +119,9 @@ export function CompareMatrix({ listings, mrp }: CompareMatrixProps) {
                     {formatDistanceToNow(new Date(listing.lastScrapedAt), { addSuffix: true })}
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <Button asChild size="sm" variant={isBest ? 'default' : 'outline'} className="shadow-sm">
-                      <a href={listing.productUrl} target="_blank" rel="noopener noreferrer">
+                    <a href={listing.productUrl ?? undefined} target="_blank" rel="noopener noreferrer" className={cn(buttonVariants({ size: 'sm', variant: isBest ? 'default' : 'outline' }), 'shadow-sm')}>
                         Buy Now <ExternalLink className="w-3 h-3 ml-1" />
-                      </a>
-                    </Button>
+                    </a>
                   </td>
                 </motion.tr>
               );
@@ -169,11 +168,9 @@ export function CompareMatrix({ listings, mrp }: CompareMatrixProps) {
                   <span className="text-xs text-muted-foreground">
                     Updated {formatDistanceToNow(new Date(listing.lastScrapedAt), { addSuffix: true })}
                   </span>
-                  <Button asChild size="sm" variant={isBest ? 'default' : 'outline'} className="shadow-sm">
-                    <a href={listing.productUrl} target="_blank" rel="noopener noreferrer">
+                  <a href={listing.productUrl ?? undefined} target="_blank" rel="noopener noreferrer" className={cn(buttonVariants({ size: 'sm', variant: isBest ? 'default' : 'outline' }), 'shadow-sm')}>
                       Buy Now
-                    </a>
-                  </Button>
+                  </a>
                 </div>
               </Card>
             </motion.div>
