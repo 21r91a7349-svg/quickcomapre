@@ -1,8 +1,48 @@
 # Dockerfile for Next.js App with Playwright/Chromium support
 FROM node:22-slim AS base
+WORKDIR /app
 
-# Install system dependencies required by Chromium/Playwright
-RUN apt-get update && apt-get install -y \
+# Step 1: Install dependencies & Playwright Chromium
+FROM base AS deps
+COPY package.json package-lock.json* ./
+RUN npm install --legacy-peer-deps
+
+# Install Playwright's Chromium browser and Linux system dependencies
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+RUN npx playwright install --with-deps chromium
+
+# Step 2: Rebuild source code
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /ms-playwright /ms-playwright
+COPY . .
+
+# Set environment variables for build phase
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_OPTIONS="--max-old-space-size=1536"
+ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/quickcompare?sslmode=disable"
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+
+# Generate Prisma Client
+RUN npx prisma generate
+
+# Build Next.js application
+RUN npm run build
+
+# Step 3: Production runner image
+FROM base AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+# Install Chromium system dependencies in runner stage
+RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     fonts-liberation \
     libasound2 \
@@ -36,49 +76,22 @@ RUN apt-get update && apt-get install -y \
     libxrender1 \
     libxss1 \
     libxtst6 \
-    lsb-release \
     wget \
     xdg-utils \
-    && rm -rf /var/lib/apt/lists/*
+    || true && rm -rf /var/lib/apt/lists/*
 
-# Install dependencies only when needed
-FROM base AS deps
-WORKDIR /app
-COPY package.json package-lock.json* ./
-RUN npm install
-# Install Playwright's Chromium browser
-ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
-RUN npx playwright install chromium
-
-# Rebuild the source code only when needed
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+# Copy Playwright browser & Prisma generated client
 COPY --from=deps /ms-playwright /ms-playwright
-COPY . .
-# Generate prisma client before build
-RUN npx prisma generate
-ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
-RUN npm run build
-
-# Production image
-FROM base AS runner
-WORKDIR /app
-ENV NODE_ENV=production
-ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
-
-# Copy Playwright browser
-COPY --from=builder /ms-playwright /ms-playwright
-
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 
-# Automatically leverage output traces to reduce image size
+# Leverage Next.js output traces
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
 EXPOSE 3000
-ENV PORT=3000
-ENV HOSTNAME="0.0.0.0"
 
 CMD ["node", "server.js"]
+
