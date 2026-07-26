@@ -75,6 +75,7 @@ export class DatabaseSync {
             }
           },
           update: {
+            productId: product.id,
             currentPrice: item.currentPrice,
             originalPrice: item.originalPrice,
             discount: item.discount,
@@ -108,6 +109,11 @@ export class DatabaseSync {
           listingId: listing.id,
           price: successfulMatches[i].item.currentPrice
         }))
+      });
+
+      // Execute canonical consolidation routine to eliminate duplicate products
+      await this.matcher.consolidateDuplicateCanonicals().catch(err => {
+        this.logger.error('Canonical consolidation failed', { error: err.message });
       });
 
       // STAGE 5: Background Alert Evaluation

@@ -92,9 +92,9 @@ export class CandidateRetriever {
 
             console.log(`[CandidateRetriever] Found ${results.length} candidates in ${Date.now() - startTime}ms`);
             return results;
-        } catch (error) {
-            console.error('[CandidateRetriever] SQL error:', error);
-            return [];
+        } catch (error: any) {
+            console.error('[CandidateRetriever] Database Exception:', error?.message || error);
+            throw new Error(`DATABASE_UNAVAILABLE: ${error?.message || 'Database query failed'}`);
         }
     }
 }

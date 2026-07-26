@@ -14,6 +14,14 @@ export interface Listing {
   productUrl: string | null;
 }
 
+export interface PlatformCoverage {
+  supportedPlatforms: number;
+  availablePlatforms: number;
+  score: number; // e.g. 0.67 or 1.0
+  percentageText: string; // e.g. "2/2 (100%)"
+  platformDetails: { name: string; slug: string; available: boolean; price?: number }[];
+}
+
 export interface Product {
   id: string;
   display_name: string;
@@ -22,4 +30,5 @@ export interface Product {
   unit: string | null;
   canonical_image_url: string | null;
   listings: Listing[];
+  coverage?: PlatformCoverage;
 }

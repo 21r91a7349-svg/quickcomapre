@@ -33,14 +33,17 @@ export async function GET(request: NextRequest) {
 
     console.log('[DIAGNOSTIC] A. Route entered for query:', query);
     
-    console.log('[DIAGNOSTIC] B. Before orchestrator.getSearchResults()');
+    const requestId = request.headers.get('x-request-id') || `req-${Math.random().toString(36).substring(2, 10)}`;
+    
     // 2. Fetch from Orchestrator (DB cache -> Live Scrape -> DB return)
-    const response = await scraperOrchestrator.getSearchResults(query, filters, { page, limit });
-    console.log('[DIAGNOSTIC] C. After orchestrator.getSearchResults()');
+    const response = await scraperOrchestrator.getSearchResults(query, filters, { page, limit }, requestId);
 
-    console.log('[DIAGNOSTIC] H. Before returning response');
-    // Return the full SearchResponse object (which includes results, total, page, etc)
-    return NextResponse.json(response);
+    // Return response with x-request-id header
+    return NextResponse.json(response, {
+      headers: {
+        'x-request-id': response.trace?.requestId || requestId
+      }
+    });
   } catch (error: any) {
     console.error('[DIAGNOSTIC EXCEPTION in route.ts]', {
       name: error.name,

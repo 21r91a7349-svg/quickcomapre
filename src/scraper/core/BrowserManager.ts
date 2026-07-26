@@ -1,4 +1,4 @@
-import { Browser, BrowserContext, Page } from 'playwright';
+import { Browser, BrowserContext, Page, chromium as vanillaChromium } from 'playwright';
 import { chromium } from 'playwright-extra';
 import { scraperConfig } from '../config';
 import { ScraperLogger } from './logger';
@@ -17,9 +17,16 @@ export class BrowserManager {
    */
   private async initBrowser(): Promise<Browser> {
     if (!this.browser) {
+      const proxy = this.proxyManager.getProxy();
+      const launchOptions = {
+        headless: scraperConfig.browser.headless,
+        args: scraperConfig.browser.args,
+        proxy: proxy ? { server: proxy.server, username: proxy.username, password: proxy.password } : undefined
+      };
+
       try {
         console.log('[DIAGNOSTIC] Playwright initBrowser launching');
-        this.logger.info('Launching new Playwright browser instance');
+        this.logger.info('Launching Playwright browser instance with stealth plugin');
         
         try {
           // Lazy-load stealth plugin (makes it optional and prevents top-level module crash)
@@ -30,17 +37,12 @@ export class BrowserManager {
           this.logger.warn(`Optional stealth plugin not found: ${e.message}. Proceeding without stealth.`);
         }
 
-        const proxy = this.proxyManager.getProxy();
-        
         try {
-          console.log('[DIAGNOSTIC] Playwright version:', require('playwright/package.json').version);
-        } catch (e) {}
-
-        this.browser = await chromium.launch({
-          headless: scraperConfig.browser.headless,
-          args: scraperConfig.browser.args,
-          proxy: proxy ? { server: proxy.server, username: proxy.username, password: proxy.password } : undefined
-        });
+          this.browser = await chromium.launch(launchOptions);
+        } catch (extraErr: any) {
+          this.logger.warn(`playwright-extra launch failed: ${extraErr.message}. Falling back to standard Playwright.`);
+          this.browser = await vanillaChromium.launch(launchOptions);
+        }
         
         console.log('[DIAGNOSTIC] Playwright browser launch success');
       } catch (error: any) {
@@ -133,10 +135,14 @@ export class BrowserManager {
       const cookies = await context.cookies();
       const localStorage = await page.evaluate(() => {
         const ls: Record<string, string> = {};
-        for (let i = 0; i < window.localStorage.length; i++) {
-          const key = window.localStorage.key(i);
-          if (key) ls[key] = window.localStorage.getItem(key) || '';
-        }
+        try {
+          if (typeof window !== 'undefined' && window.localStorage) {
+            for (let i = 0; i < window.localStorage.length; i++) {
+              const key = window.localStorage.key(i);
+              if (key) ls[key] = window.localStorage.getItem(key) || '';
+            }
+          }
+        } catch (e) {}
         return ls;
       });
 

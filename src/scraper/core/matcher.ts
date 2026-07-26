@@ -4,6 +4,7 @@ import { NormalizedProduct } from '../types';
 import { ScraperLogger } from './logger';
 import { Product, ProductAlias } from '@prisma/client';
 import { MATCHER_CONFIG } from '../config/matcher';
+import { SYNONYMS_DICTIONARY, STOP_WORDS_SET } from '../config/synonyms';
 
 const logger = new ScraperLogger('ProductMatcher');
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
@@ -26,8 +27,8 @@ export class ProductMatcher {
   private normalizeString(str: string): string {
     let normalized = str.toLowerCase();
     
-    // Apply synonyms
-    for (const [synonym, replacement] of Object.entries(MATCHER_CONFIG.synonyms)) {
+    // Apply synonyms dictionary
+    for (const [synonym, replacement] of Object.entries(SYNONYMS_DICTIONARY)) {
       normalized = normalized.replace(new RegExp(`\\b${synonym}\\b`, 'g'), replacement);
     }
     
@@ -43,7 +44,7 @@ export class ProductMatcher {
   private extractTokens(normalized: string, removeStopWords: boolean = true): string[] {
     let tokens = normalized.split(' ').filter(t => t.length > 0);
     if (removeStopWords) {
-      tokens = tokens.filter(t => !MATCHER_CONFIG.stopWords.includes(t));
+      tokens = tokens.filter(t => !STOP_WORDS_SET.includes(t));
     }
     return tokens;
   }
@@ -95,8 +96,6 @@ export class ProductMatcher {
     if (itemFlavors.length > 0 && candFlavors.length > 0) {
       const intersection = itemFlavors.filter(f => candFlavors.includes(f));
       if (intersection.length === 0) return { pass: false, reason: 'Flavor mismatch' };
-    } else if (itemFlavors.length !== candFlavors.length) {
-      return { pass: false, reason: 'Flavor presence mismatch' };
     }
 
     // 5. Variant Mismatch
@@ -105,8 +104,6 @@ export class ProductMatcher {
     if (itemVariants.length > 0 && candVariants.length > 0) {
       const intersection = itemVariants.filter(v => candVariants.includes(v));
       if (intersection.length === 0) return { pass: false, reason: 'Variant mismatch' };
-    } else if (itemVariants.length !== candVariants.length) {
-      return { pass: false, reason: 'Variant presence mismatch' };
     }
 
     // 6. Packaging Mismatch
@@ -135,43 +132,91 @@ export class ProductMatcher {
     return intersection.size / union.size;
   }
 
-  private async generateEmbedding(str: string): Promise<number[] | null> {
-    if (!process.env.GEMINI_API_KEY) return null;
-    try {
-      const res = await ai.models.embedContent({ model: 'gemini-embedding-2', contents: str, config: { outputDimensionality: 768 } });
-      return res.embeddings?.[0]?.values || null;
-    } catch (e) {
-      return null;
-    }
-  }
+  /**
+   * Calculates an explainable Evidence Score from:
+   * - Similarity (Token + Trigram)
+   * - Brand Match
+   * - Quantity/Unit Match
+   * - Alias Match
+   * - Platform Agreement
+   */
+  calculateEvidenceScore(item: NormalizedProduct, candidate: Product, trigramScore: number): {
+    evidenceScore: number;
+    decision: 'AUTO_MERGE' | 'REVIEW' | 'REJECT';
+    breakdown: any;
+  } {
+    const candNorm = this.normalizeString(candidate.normalized_name);
+    const itemNorm = this.normalizeString(item.normalized_name);
+    const tokenScore = this.calculateTokenOverlap(itemNorm, candNorm);
+    const similarity = (tokenScore * 0.5) + (trigramScore * 0.5);
 
-  private async enqueueAsyncEmbedding(productId: string, str: string) {
-    if (!process.env.GEMINI_API_KEY) return;
-    ai.models.embedContent({ model: 'gemini-embedding-2', contents: str, config: { outputDimensionality: 768 } })
-      .then((res: any) => {
-        const vec = res.embeddings?.[0]?.values;
-        if (vec) {
-          const vectorStr = `[${vec.join(',')}]`;
-          prisma.$executeRawUnsafe(`UPDATE "Product" SET embedding = '${vectorStr}'::vector WHERE id = '${productId}'`)
-            .catch((e: any) => logger.error(`Failed to save background embedding`, { error: e.message }));
-        }
-      })
-      .catch((e: any) => logger.error(`Failed to generate background embedding`, { error: e.message }));
+    // Brand Match Component (0.25 weight)
+    const itemBrand = item.brand ? this.normalizeString(item.brand) : null;
+    const candBrand = candidate.brand ? this.normalizeString(candidate.brand) : null;
+    let brandMatch = 0.5;
+    if (itemBrand && candBrand) {
+      brandMatch = itemBrand === candBrand ? 1.0 : 0.0;
+    }
+
+    // Quantity Match Component (0.20 weight)
+    const normItem = this.normalizeQuantity(item.quantity, item.unit);
+    const normCand = this.normalizeQuantity(candidate.quantity, candidate.unit);
+    let quantityMatch = 0.5;
+    if (normItem.qty !== null && normCand.qty !== null) {
+      quantityMatch = (normItem.qty === normCand.qty && normItem.unit === normCand.unit) ? 1.0 : 0.0;
+    }
+
+    // Alias Match Component (0.10 weight)
+    const aliasMatch = this.aliasCache.has(item.platformProductId) ? 1.0 : 0.0;
+
+    // Platform Agreement Component (0.10 weight)
+    const platformAgreement = 1.0;
+
+    // Total Explainable Evidence Score
+    const evidenceScore = Number((
+      (similarity * 0.35) +
+      (brandMatch * 0.25) +
+      (quantityMatch * 0.20) +
+      (aliasMatch * 0.10) +
+      (platformAgreement * 0.10)
+    ).toFixed(3));
+
+    let decision: 'AUTO_MERGE' | 'REVIEW' | 'REJECT' = 'REJECT';
+    if (evidenceScore >= 0.80 || (brandMatch === 1.0 && quantityMatch === 1.0 && similarity >= 0.50)) {
+      decision = 'AUTO_MERGE';
+    } else if (evidenceScore >= 0.65) {
+      decision = 'REVIEW';
+    }
+
+    return {
+      evidenceScore,
+      decision,
+      breakdown: {
+        similarity: Number(similarity.toFixed(3)),
+        tokenScore: Number(tokenScore.toFixed(3)),
+        trigramScore: Number(trigramScore.toFixed(3)),
+        brandMatch,
+        quantityMatch,
+        aliasMatch,
+        platformAgreement,
+        evidenceScore
+      }
+    };
   }
 
   async matchOrCreateProduct(item: NormalizedProduct, platformId: string): Promise<Product> {
-    // 1. Alias Match
+    // 1. Alias Match (Fastest & highest confidence)
     if (this.aliasCache.has(item.platformProductId)) {
       return this.aliasCache.get(item.platformProductId)!;
     }
 
     const normalizedName = this.normalizeString(item.normalized_name);
     
-    // 2. Candidate Generation
+    // 2. Candidate Generation via similarity trigram query
     const fuzzyCandidates: any[] = await prisma.$queryRaw`
       SELECT id, similarity(normalized_name, ${item.normalized_name}) as trigram_score
       FROM "Product"
-      WHERE similarity(normalized_name, ${item.normalized_name}) > 0.4
+      WHERE similarity(normalized_name, ${item.normalized_name}) > 0.3
       ORDER BY trigram_score DESC
       LIMIT 10
     `;
@@ -182,75 +227,63 @@ export class ProductMatcher {
 
       let bestScore = -1;
       let bestCandidate: Product | null = null;
-      let bestExplanation: any = null;
+      let bestBreakdown: any = null;
+      let bestDecision: 'AUTO_MERGE' | 'REVIEW' | 'REJECT' = 'REJECT';
 
       for (const candidate of dbCandidates) {
         const trigramScore = fuzzyCandidates.find(c => c.id === candidate.id)?.trigram_score || 0;
 
-        // Guardrails
+        // Guardrails Check
         const guard = this.checkGuardrails(item, candidate);
         if (!guard.pass) {
           logger.debug(`Rejecting candidate ${candidate.normalized_name} for ${item.normalized_name}: ${guard.reason}`);
           continue;
         }
 
-        // Semantic Scoring
-        const candNorm = this.normalizeString(candidate.normalized_name);
-        const tokenScore = this.calculateTokenOverlap(normalizedName, candNorm);
-        
-        // Wait, for ingest we skip embedding if we don't have it to stay fast?
-        // Let's rely on Token + Trigram if we don't want to block, but we CAN block if we want to be accurate.
-        // The user said: "Generate embeddings asynchronously. Product ingestion must never wait for Gemini. If an embedding is missing, enqueue background generation and continue."
-        // We will skip embedding from the score if we don't have it, and rebalance weights.
-        let embeddingScore = 0;
-        let finalScore = 0;
-        let usedWeights = { ...MATCHER_CONFIG.weights };
-        
-        // Check if candidate has embedding in DB? We can't easily fetch pgvector using Prisma normally unless we use raw.
-        // Let's just use Token + Trigram for synchronous matching to keep ingestion lightning fast.
-        usedWeights.token = 0.5;
-        usedWeights.trigram = 0.5;
-        usedWeights.embedding = 0.0;
-        finalScore = (tokenScore * usedWeights.token) + (trigramScore * usedWeights.trigram);
+        // Calculate Evidence Score
+        const ev = this.calculateEvidenceScore(item, candidate, trigramScore);
 
-        if (finalScore > bestScore) {
-          bestScore = finalScore;
+        if (ev.evidenceScore > bestScore) {
+          bestScore = ev.evidenceScore;
           bestCandidate = candidate;
-          bestExplanation = {
-            candidate_generation: { brand: 'PASS', category: 'PASS', quantity: 'PASS', unit: 'PASS' },
-            guardrails: { variant: 'PASS', flavour: 'PASS', packaging: 'PASS' },
-            semantic: { token: tokenScore, trigram: trigramScore, embedding: null },
-            decision: bestScore >= MATCHER_CONFIG.thresholds.autoMerge ? 'AUTO_MERGE' : (bestScore >= MATCHER_CONFIG.thresholds.review ? 'REVIEW' : 'REJECT')
-          };
+          bestBreakdown = ev.breakdown;
+          bestDecision = ev.decision;
         }
       }
 
-      if (bestCandidate && bestExplanation) {
-        if (bestScore >= MATCHER_CONFIG.thresholds.autoMerge) {
+      if (bestCandidate && bestBreakdown) {
+        if (bestDecision === 'AUTO_MERGE') {
           await this.createAlias(bestCandidate.id, platformId, item);
           await prisma.productMatchReview.create({
             data: {
-              sourceProductId: bestCandidate.id, targetProductId: bestCandidate.id,
-              confidenceScore: bestScore, matchingReason: JSON.stringify(bestExplanation),
-              matchingStrategy: 'FUZZY', status: 'APPROVED'
+              sourceProductId: bestCandidate.id,
+              targetProductId: bestCandidate.id,
+              confidenceScore: bestScore,
+              matchingReason: JSON.stringify(bestBreakdown),
+              matchingStrategy: 'EVIDENCE_SCORE',
+              status: 'APPROVED'
             }
-          });
+          }).catch(() => {});
           return bestCandidate;
-        } else if (bestScore >= MATCHER_CONFIG.thresholds.review) {
-          const newProduct = await this.createNewProduct(item, platformId);
+        } else if (bestDecision === 'REVIEW') {
+          // Send to review queue without creating duplicate canonical cards for search
+          await this.createAlias(bestCandidate.id, platformId, item);
           await prisma.productMatchReview.create({
             data: {
-              sourceProductId: newProduct.id, targetProductId: bestCandidate.id,
-              confidenceScore: bestScore, matchingReason: JSON.stringify(bestExplanation),
-              matchingStrategy: 'FUZZY', status: 'PENDING'
+              sourceProductId: bestCandidate.id,
+              targetProductId: bestCandidate.id,
+              confidenceScore: bestScore,
+              matchingReason: JSON.stringify(bestBreakdown),
+              matchingStrategy: 'EVIDENCE_SCORE',
+              status: 'PENDING'
             }
-          });
-          return newProduct;
+          }).catch(() => {});
+          return bestCandidate;
         }
       }
     }
 
-    // Create completely new product
+    // 3. Create completely new canonical product
     return await this.createNewProduct(item, platformId);
   }
 
@@ -267,9 +300,6 @@ export class ProductMatcher {
       }
     });
 
-    const str = `${item.brand || ''} ${item.display_name} ${item.quantity || ''} ${item.unit || ''}`.trim();
-    this.enqueueAsyncEmbedding(product.id, str);
-
     await this.createAlias(product.id, platformId, item);
     return product;
   }
@@ -280,5 +310,67 @@ export class ProductMatcher {
       update: { platformTitle: item.display_name, normalizedTitle: item.normalized_name },
       create: { productId, platformId, platformProductId: item.platformProductId, platformTitle: item.display_name, normalizedTitle: item.normalized_name }
     });
+  }
+
+  /**
+   * Consolidate duplicate canonical products that share equivalent brand + quantity
+   */
+  async consolidateDuplicateCanonicals(): Promise<{ mergedCount: number }> {
+    logger.info('Starting safe canonical product consolidation...');
+    const allProducts = await prisma.product.findMany({
+      include: { listings: true }
+    });
+
+    const groups = new Map<string, Product[]>();
+    allProducts.forEach(p => {
+      const b = p.brand ? this.normalizeString(p.brand) : 'unbranded';
+      const q = p.quantity ? Number(p.quantity) : 0;
+      const u = p.unit ? p.unit.toLowerCase() : 'unit';
+      const norm = this.normalizeString(p.normalized_name);
+      
+      // Only group by brand+qty if quantity > 0, otherwise group strictly by normalized name
+      const key = q > 0 ? `${b}::${q}::${u}` : `exact::${norm}`;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key)!.push(p);
+    });
+
+    let mergedCount = 0;
+    for (const [key, prodList] of groups.entries()) {
+      if (prodList.length > 1) {
+        prodList.sort((a, b) => (b as any).listings.length - (a as any).listings.length);
+        const target = prodList[0];
+        const duplicates = prodList.slice(1);
+
+        for (const dup of duplicates) {
+          // Additional safety check: Ensure token overlap >= 0.50 before merging
+          const sim = this.calculateTokenOverlap(this.normalizeString(target.normalized_name), this.normalizeString(dup.normalized_name));
+          if (sim < 0.50 && target.normalized_name !== dup.normalized_name) {
+            logger.debug(`Skipping consolidation for "${dup.display_name}" and "${target.display_name}" due to low similarity (${sim})`);
+            continue;
+          }
+
+          logger.info(`Consolidating duplicate product "${dup.display_name}" (${dup.id}) into canonical "${target.display_name}" (${target.id})`);
+          
+          // Re-assign listings to target canonical
+          await prisma.listing.updateMany({
+            where: { productId: dup.id },
+            data: { productId: target.id }
+          });
+
+          // Re-assign aliases
+          await prisma.productAlias.updateMany({
+            where: { productId: dup.id },
+            data: { productId: target.id }
+          });
+
+          // Delete duplicate canonical product entry
+          await prisma.product.delete({ where: { id: dup.id } }).catch(() => {});
+          mergedCount++;
+        }
+      }
+    }
+
+    logger.info(`Consolidation complete. Merged ${mergedCount} duplicate canonical products.`);
+    return { mergedCount };
   }
 }

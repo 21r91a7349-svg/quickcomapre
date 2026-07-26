@@ -50,6 +50,9 @@ export class SearchEngine {
 
         console.log(`[SearchEngine] Pipeline complete in ${Date.now() - startTime}ms. Returned ${paginatedResults.length}/${total} results.`);
 
+        const supportedPlatformsList = ['Blinkit', 'BigBasket', 'Zepto'];
+        const supportedPlatformCount = supportedPlatformsList.length;
+
         return {
             total,
             page,
@@ -57,6 +60,22 @@ export class SearchEngine {
             limit,
             facets,
             results: paginatedResults.map(p => {
+                const availablePlatformsSet = new Set(p.listings.map(l => l.platform.name));
+                const availableCount = availablePlatformsSet.size;
+                const coverageScore = Number((availableCount / supportedPlatformCount).toFixed(2));
+
+                const coverage = {
+                  supportedPlatforms: supportedPlatformCount,
+                  availablePlatforms: availableCount,
+                  score: coverageScore,
+                  percentageText: `${availableCount}/${supportedPlatformCount} (${Math.round((availableCount / supportedPlatformCount) * 100)}%)`,
+                  platformDetails: supportedPlatformsList.map(plat => ({
+                    name: plat,
+                    slug: plat.toLowerCase().replace(/\s+/g, ''),
+                    available: availablePlatformsSet.has(plat)
+                  }))
+                };
+
                 const res = {
                     id: p.id,
                     display_name: p.display_name,
@@ -66,6 +85,7 @@ export class SearchEngine {
                     canonical_image_url: p.canonical_image_url,
                     searchScore: p.searchScore,
                     intentMatch: p.intentMatch,
+                    coverage,
                     listings: p.listings.map(l => ({
                         id: l.id,
                         platform: { name: l.platform.name, slug: l.platform.slug },

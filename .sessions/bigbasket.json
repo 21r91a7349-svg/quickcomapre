@@ -1,0 +1,147 @@
+{
+  "cookies": [
+    {
+      "name": "_bb_locSrc",
+      "value": "default",
+      "domain": ".bigbasket.com",
+      "path": "/",
+      "expires": 1816594545.391,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_bb_cid",
+      "value": "1",
+      "domain": ".bigbasket.com",
+      "path": "/",
+      "expires": 1819620008.00546,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_bb_ftvid",
+      "value": "\"MTM1ODgwOTAzMTc5NzAwNTAzOA==|Yw0MTkMCBk4vEFxVUFJRBhBSVF8DTVhQWhB3LjE=\"",
+      "domain": ".bigbasket.com",
+      "path": "/",
+      "expires": 1785065745.66,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_bb_hid",
+      "value": "7427",
+      "domain": ".bigbasket.com",
+      "path": "/",
+      "expires": 1819618545.662213,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_bb_vid",
+      "value": "\"MTM1ODgwOTAzMTc5NzAwNTAzOA==\"",
+      "domain": ".bigbasket.com",
+      "path": "/",
+      "expires": 1819618545.662225,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_bb_tc",
+      "value": "0",
+      "domain": ".bigbasket.com",
+      "path": "/",
+      "expires": 1816594545.66,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_client_version",
+      "value": "2843",
+      "domain": ".bigbasket.com",
+      "path": "/",
+      "expires": 1819618545.662249,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_bb_aid",
+      "value": "\"Mjk2NTE4NTMwNA==\"",
+      "domain": ".bigbasket.com",
+      "path": "/",
+      "expires": 1819620008.005559,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_bb_rdt",
+      "value": "\"MzExMTA5NTc4Ng==.0\"",
+      "domain": ".bigbasket.com",
+      "path": "/",
+      "expires": 1816594545.66,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_bb_rd",
+      "value": "6",
+      "domain": ".bigbasket.com",
+      "path": "/",
+      "expires": 1816596008.003,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_sp_van_encom_hid",
+      "value": "1722",
+      "domain": ".bigbasket.com",
+      "path": "/",
+      "expires": 1819618564.959318,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_sp_bike_hid",
+      "value": "1720",
+      "domain": ".bigbasket.com",
+      "path": "/",
+      "expires": 1819618564.959365,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sessionid",
+      "value": "cmvw2563jfxm4nlnngq1co0wd75zr097",
+      "domain": ".bigbasket.com",
+      "path": "/",
+      "expires": 1786268164.957,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ts",
+      "value": "\"2026-07-26 15:29:52.123\"",
+      "domain": ".bigbasket.com",
+      "path": "/",
+      "expires": 1816596008.003,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "localStorage": {},
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+  "createdAt": 1785060008025
+}
