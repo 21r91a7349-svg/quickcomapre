@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { NormalizedProduct, ScraperAdapter } from '../types';
+import { NormalizedProduct, ScraperAdapter, DbSyncResult } from '../types';
 import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { ScraperLogger } from './logger';
@@ -29,11 +29,21 @@ export class DatabaseSync {
 
   /**
    * Syncs scraped products into the database transactionally.
-   * Creates or updates Platform, Products, and Listings atomically.
+   * Returns detailed telemetry statistics for SearchTrace.
    */
-  async syncScraperResults(adapter: ScraperAdapter, results: NormalizedProduct[]) {
+  async syncScraperResults(adapter: ScraperAdapter, results: NormalizedProduct[]): Promise<DbSyncResult> {
     const platformMeta = adapter.getPlatform();
     this.logger.info(`Starting DB sync for ${results.length} products from ${platformMeta.name}`);
+
+    const syncResult: DbSyncResult = {
+      syncedCount: 0,
+      newCanonicalCount: 0,
+      mergedListingsCount: 0,
+      priceUpdatesCount: 0,
+      duplicatesSkippedCount: 0,
+      failedListingsCount: 0,
+      syncErrorsCount: 0,
+    };
     
     // 1. Ensure platform exists
     const platform = await prisma.platform.upsert({
@@ -49,69 +59,84 @@ export class DatabaseSync {
     // STAGE 1: Preload caches to reduce database round-trips
     await this.matcher.preload(results, platform.id);
 
-    let syncedCount = 0;
-    
     // STAGE 2 & 4: Controlled Concurrency via pMap
     const CONCURRENCY_LIMIT = 16;
     
     const matchedProducts = await pMap(results, async (item) => {
       try {
-        const product = await this.matcher.matchOrCreateProduct(item, platform.id);
-        return { item, product };
+        const matchResult = await this.matcher.matchOrCreateProduct(item, platform.id);
+        return { item, product: matchResult.product, isNew: matchResult.isNew };
       } catch (error: any) {
         this.logger.error(`Failed to match/create product ${item.display_name}`, { error: error.message });
+        syncResult.syncErrorsCount++;
         return null;
       }
     }, { concurrency: CONCURRENCY_LIMIT });
 
-    const successfulMatches = matchedProducts.filter((res): res is { item: NormalizedProduct, product: any } => res !== null);
+    const successfulMatches = matchedProducts.filter((res): res is { item: NormalizedProduct, product: any, isNew: boolean } => res !== null);
+
+    // Count new vs merged
+    for (const match of successfulMatches) {
+      if (match.isNew) {
+        syncResult.newCanonicalCount++;
+      } else {
+        syncResult.mergedListingsCount++;
+      }
+    }
 
     // STAGE 3: Transactional database writes
     if (successfulMatches.length > 0) {
-      await prisma.$transaction(async (tx) => {
-        const listingUpserts = successfulMatches.map(({ item, product }) => 
-          tx.listing.upsert({
-            where: {
-              platformId_platformProductId: {
+      try {
+        await prisma.$transaction(async (tx) => {
+          const listingUpserts = successfulMatches.map(({ item, product }) => 
+            tx.listing.upsert({
+              where: {
+                platformId_platformProductId: {
+                  platformId: platform.id,
+                  platformProductId: item.platformProductId
+                }
+              },
+              update: {
+                productId: product.id,
+                currentPrice: item.currentPrice,
+                originalPrice: item.originalPrice,
+                discount: item.discount,
+                inStock: item.inStock,
+                deliveryTime: item.deliveryTime,
+                imageUrl: item.canonical_image_url,
+                productUrl: item.productUrl,
+                lastScrapedAt: new Date()
+              },
+              create: {
+                productId: product.id,
                 platformId: platform.id,
-                platformProductId: item.platformProductId
+                platformProductId: item.platformProductId,
+                currentPrice: item.currentPrice,
+                originalPrice: item.originalPrice,
+                discount: item.discount,
+                inStock: item.inStock,
+                deliveryTime: item.deliveryTime,
+                imageUrl: item.canonical_image_url,
+                productUrl: item.productUrl,
               }
-            },
-            update: {
-              productId: product.id,
-              currentPrice: item.currentPrice,
-              originalPrice: item.originalPrice,
-              discount: item.discount,
-              inStock: item.inStock,
-              deliveryTime: item.deliveryTime,
-              imageUrl: item.canonical_image_url,
-              productUrl: item.productUrl,
-              lastScrapedAt: new Date()
-            },
-            create: {
-              productId: product.id,
-              platformId: platform.id,
-              platformProductId: item.platformProductId,
-              currentPrice: item.currentPrice,
-              originalPrice: item.originalPrice,
-              discount: item.discount,
-              inStock: item.inStock,
-              deliveryTime: item.deliveryTime,
-              imageUrl: item.canonical_image_url,
-              productUrl: item.productUrl,
-            }
-          })
-        );
+            })
+          );
 
-        const listings = await Promise.all(listingUpserts);
+          const listings = await Promise.all(listingUpserts);
+          syncResult.priceUpdatesCount = listings.length;
 
-        await tx.priceHistory.createMany({
-          data: listings.map((listing, i) => ({
-            listingId: listing.id,
-            price: successfulMatches[i].item.currentPrice
-          }))
+          await tx.priceHistory.createMany({
+            data: listings.map((listing, i) => ({
+              listingId: listing.id,
+              price: successfulMatches[i].item.currentPrice
+            }))
+          });
         });
-      });
+      } catch (txError: any) {
+        this.logger.error(`Transaction failed: ${txError.message}`);
+        syncResult.failedListingsCount = successfulMatches.length;
+        syncResult.syncErrorsCount++;
+      }
 
       // STAGE 5: Background Alert Evaluation
       const uniqueProductIds = [...new Set(successfulMatches.map(sm => sm.product.id))];
@@ -121,9 +146,10 @@ export class DatabaseSync {
         });
       });
 
-      syncedCount = successfulMatches.length;
+      syncResult.syncedCount = successfulMatches.length - syncResult.failedListingsCount;
     }
 
-    this.logger.info(`Successfully synced ${syncedCount}/${results.length} products transactionally to DB`);
+    this.logger.info(`DB sync complete: synced=${syncResult.syncedCount} new=${syncResult.newCanonicalCount} merged=${syncResult.mergedListingsCount} prices=${syncResult.priceUpdatesCount} failed=${syncResult.failedListingsCount} errors=${syncResult.syncErrorsCount}`);
+    return syncResult;
   }
 }

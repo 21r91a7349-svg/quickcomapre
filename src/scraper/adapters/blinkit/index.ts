@@ -3,11 +3,21 @@ import { BrowserManager } from '../../core/BrowserManager';
 import { RequestManager } from '../../core/RequestManager';
 import { ScraperLogger } from '../../core/logger';
 import { normalizeProductName, extractQuantityAndUnit, parsePrice } from '../../core/parser';
+import { scraperConfig } from '../../config';
 
 export class BlinkitAdapter implements ScraperAdapter {
   private logger = new ScraperLogger('BlinkitAdapter');
   private browserManager = new BrowserManager();
   private requestManager = new RequestManager();
+
+  priority = 1;
+  isEnabled(): boolean { return scraperConfig.enabledPlatforms.includes('blinkit'); }
+  supportsSearch(): boolean { return true; }
+  supportsProduct(): boolean { return false; }
+  supportsSuggestions(): boolean { return false; }
+  supportsPriceHistory(): boolean { return false; }
+  supportsInventory(): boolean { return false; }
+  supportsOffers(): boolean { return false; }
 
   getPlatform(): PlatformMeta {
     return {

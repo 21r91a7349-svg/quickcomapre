@@ -31,7 +31,8 @@ export type PlatformStatusCode =
   | 'NETWORK_FAILED'
   | 'BLOCKED_BY_ANTI_BOT'
   | 'DISABLED'
-  | 'NOT_IMPLEMENTED';
+  | 'NOT_IMPLEMENTED'
+  | 'SKIPPED_CACHE_FRESH';
 
 export interface PlatformExecutionResult {
   platform: string;
@@ -45,23 +46,38 @@ export interface PlatformExecutionResult {
 }
 
 export interface ScraperAdapter {
-  /**
-   * Return metadata about this platform.
-   */
   getPlatform(): PlatformMeta;
-
-  /**
-   * Search for products on the platform.
-   */
   search(query: string): Promise<NormalizedProduct[]>;
-
-  /**
-   * Fetch a single product's exact details by its platform ID.
-   */
   getProduct(id: string): Promise<NormalizedProduct | null>;
-
-  /**
-   * Test if the platform is currently reachable and scraping is healthy.
-   */
   healthCheck(): Promise<boolean>;
+
+  // Capability methods
+  isEnabled(): boolean;
+  supportsSearch(): boolean;
+  supportsProduct(): boolean;
+  supportsSuggestions(): boolean;
+  supportsPriceHistory(): boolean;
+  supportsInventory(): boolean;
+  supportsOffers(): boolean;
+  priority: number;
+}
+
+export interface DbSyncResult {
+  syncedCount: number;
+  newCanonicalCount: number;
+  mergedListingsCount: number;
+  priceUpdatesCount: number;
+  duplicatesSkippedCount: number;
+  failedListingsCount: number;
+  syncErrorsCount: number;
+}
+
+export interface AdapterHealthEntry {
+  slug: string;
+  platform: string;
+  status: PlatformStatusCode;
+  latencyMs: number;
+  products: number;
+  error?: string;
+  lastChecked: string;
 }

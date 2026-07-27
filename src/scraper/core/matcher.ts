@@ -204,10 +204,10 @@ export class ProductMatcher {
     };
   }
 
-  async matchOrCreateProduct(item: NormalizedProduct, platformId: string): Promise<Product> {
+  async matchOrCreateProduct(item: NormalizedProduct, platformId: string): Promise<{ product: Product; isNew: boolean }> {
     // 1. Alias Match (Fastest & highest confidence)
     if (this.aliasCache.has(item.platformProductId)) {
-      return this.aliasCache.get(item.platformProductId)!;
+      return { product: this.aliasCache.get(item.platformProductId)!, isNew: false };
     }
 
     const normalizedName = this.normalizeString(item.normalized_name);
@@ -264,7 +264,7 @@ export class ProductMatcher {
               status: 'APPROVED'
             }
           }).catch(() => {});
-          return bestCandidate;
+          return { product: bestCandidate, isNew: false };
         } else if (bestDecision === 'REVIEW') {
           // Send to review queue without creating duplicate canonical cards for search
           await this.createAlias(bestCandidate.id, platformId, item);
@@ -278,13 +278,14 @@ export class ProductMatcher {
               status: 'PENDING'
             }
           }).catch(() => {});
-          return bestCandidate;
+          return { product: bestCandidate, isNew: false };
         }
       }
     }
 
     // 3. Create completely new canonical product
-    return await this.createNewProduct(item, platformId);
+    const newProduct = await this.createNewProduct(item, platformId);
+    return { product: newProduct, isNew: true };
   }
 
   private async createNewProduct(item: NormalizedProduct, platformId: string): Promise<Product> {

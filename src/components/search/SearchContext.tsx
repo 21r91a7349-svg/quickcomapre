@@ -17,35 +17,49 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 
   const debouncedQuery = useDebounce(query, 300);
 
-  // Future API Integration Point
+  // Live API Integration
   useEffect(() => {
     if (!debouncedQuery.trim()) {
       setSuggestions([]);
       return;
     }
 
+    const controller = new AbortController();
+
     const fetchSuggestions = async () => {
       setIsLoading(true);
       try {
-        // Mock API call - ready for GET /api/search?q=
-        // const res = await fetch(`/api/search?q=${encodeURIComponent(debouncedQuery)}`);
-        // const data = await res.json();
-        
-        // Mock data for now
-        setTimeout(() => {
-          setSuggestions([
-            { id: '1', title: `${debouncedQuery} overview`, type: 'result' },
-            { id: '2', title: `Explore ${debouncedQuery} trends`, type: 'ai' }
-          ]);
-          setIsLoading(false);
-        }, 300);
-      } catch (error) {
-        console.error('Search error:', error);
+        const res = await fetch(`/api/suggestions?q=${encodeURIComponent(debouncedQuery)}`, {
+          signal: controller.signal,
+        });
+        if (!res.ok) throw new Error(`Suggestions API returned ${res.status}`);
+        const data = await res.json();
+
+        const mapped: SearchSuggestion[] = [];
+        if (data.products) {
+          for (const p of data.products.slice(0, 5)) {
+            mapped.push({ id: `prod-${p}`, title: p, type: 'result' });
+          }
+        }
+        if (data.brands) {
+          for (const b of data.brands.slice(0, 3)) {
+            mapped.push({ id: `brand-${b}`, title: b, type: 'ai' });
+          }
+        }
+
+        setSuggestions(mapped);
+      } catch (error: any) {
+        if (error.name !== 'AbortError') {
+          console.error('Suggestions fetch error:', error);
+        }
+      } finally {
         setIsLoading(false);
       }
     };
 
     fetchSuggestions();
+
+    return () => controller.abort();
   }, [debouncedQuery]);
 
   const clearHistory = useCallback(() => {

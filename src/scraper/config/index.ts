@@ -1,4 +1,10 @@
 export const scraperConfig = {
+  // Enabled platforms (environment-driven)
+  enabledPlatforms: (process.env.ENABLED_PLATFORMS?.split(',') || ['blinkit', 'bigbasket', 'zepto']).map(s => s.trim()),
+
+  // Debug mode: saves raw adapter payloads to logs/
+  debugAdapters: process.env.DEBUG_ADAPTERS === 'true',
+
   // Timeouts (ms)
   timeouts: {
     pageLoad: 30000,
